@@ -1,0 +1,1358 @@
+<BlockBehavior>
+        <General>
+                <BasicValues>   
+                    
+                    
+                        
+                        <DefensiveEffectMaxPercentMassMult>10</DefensiveEffectMaxPercentMassMult>   
+                        <ShieldExtraCapacityMultPerUnit>1</ShieldExtraCapacityMultPerUnit>   
+                        <ShieldExtraRechargeMultPerUnit>1</ShieldExtraRechargeMultPerUnit>   
+                        <ShieldDoInitialWithoutFromCore>true</ShieldDoInitialWithoutFromCore> 
+                        <ShieldCapacityInitial>220</ShieldCapacityInitial> 
+                        <ShieldRechargeInitial>0</ShieldRechargeInitial> 
+                        <ShieldCapacityPow>0.9791797578</ShieldCapacityPow>
+                        <ShieldCapacityPreMul>1.0</ShieldCapacityPreMul>
+                        <ShieldCapacityTotalMul>110</ShieldCapacityTotalMul>   
+                        <ShieldRechargePow>1.0</ShieldRechargePow>   
+                        <ShieldRechargePreMul>1.0</ShieldRechargePreMul>
+                        <ShieldRechargeTotalMul>5.5</ShieldRechargeTotalMul>
+                        <ShieldRechargeCycleTime>1.0</ShieldRechargeCycleTime> 
+                        <ShieldRecoveryTimeAfterOutage>10</ShieldRecoveryTimeAfterOutage> 
+                        <ShieldDirectRecoveryTime>60</ShieldDirectRecoveryTime> 
+                        <ShieldRecoveryMultPerPercent>0.5</ShieldRecoveryMultPerPercent> 
+                        <ShieldRecoveryMult>0.25</ShieldRecoveryMult> 
+                        
+                        <ShieldRechargePowerConsumption>10</ShieldRechargePowerConsumption> 
+                        <ShieldFullPowerConsumption>1</ShieldFullPowerConsumption> 
+                       
+                        <ShieldDockTransferLimit>0.25</ShieldDockTransferLimit> 
+                        
+                        
+                        <PowerDivFactor>0.333</PowerDivFactor>
+                        <PowerCeiling>2000000.0</PowerCeiling>
+                        <PowerGrowth>1.000348</PowerGrowth>
+                        <PowerLinearGrowth>25.0</PowerLinearGrowth>
+                        <PowerRecoveryTime>1000</PowerRecoveryTime>
+                        <PowerBaseCapacity>50000</PowerBaseCapacity>
+                        <PowerTankCapacityLinear>1000</PowerTankCapacityLinear> 
+                        <PowerTankCapacityPow>1.05</PowerTankCapacityPow> 
+                        
+                        
+                        <PowerBatteryGroupMultiplier>0.00613</PowerBatteryGroupMultiplier> 
+                        <PowerBatteryGroupPow>2.25</PowerBatteryGroupPow> 
+                        
+                        <PowerBatteryGroupCeiling>2000000.0</PowerBatteryGroupCeiling>
+                        <PowerBatteryGroupGrowth>1.000232</PowerBatteryGroupGrowth>
+                        
+                        
+                        <PowerBatteryLinearGrowth>25.0</PowerBatteryLinearGrowth>
+                        <PowerBatteryCapacityLinear>500</PowerBatteryCapacityLinear> 
+                        <PowerBatteryCapacityPow>1.10</PowerBatteryCapacityPow> 
+                        <PowerBatteryTransferPercentRatePerSec>0.25</PowerBatteryTransferPercentRatePerSec> 
+                        
+                        <PowerBatteryTurnedOnRegenMultiplier>1.0</PowerBatteryTurnedOnRegenMultiplier> 
+                        <PowerBatteryTurnedOffRegenMultiplier>0.2</PowerBatteryTurnedOffRegenMultiplier> 
+                        <PowerBatteryTransferTopOffOnly>false</PowerBatteryTransferTopOffOnly> 
+                       
+                        <PowerBatteryExplosionCountMaxPercent>0.005</PowerBatteryExplosionCountMaxPercent> 
+                        <PowerBatteryExplosionCountPerBlocksInGroup>0.1</PowerBatteryExplosionCountPerBlocksInGroup> 
+                        <PowerBatteryExplosionCountMax>100</PowerBatteryExplosionCountMax> 
+						
+                        <PowerBatteryExplosionsPerSecond>0.5</PowerBatteryExplosionsPerSecond> 
+                        <PowerBatteryExplosionRadiusPerBlocksInGroup>0.001</PowerBatteryExplosionRadiusPerBlocksInGroup>&gt; 
+                        <PowerBatteryExplosionRadiusMax>8.0</PowerBatteryExplosionRadiusMax> 
+						
+                        <PowerBatteryExplosionDamagePerBlocksInGroup>2.0</PowerBatteryExplosionDamagePerBlocksInGroup> 
+                        <PowerBatteryExplosionDamageMax>100000.0</PowerBatteryExplosionDamageMax> 
+                        
+                        
+						<RepulseMultiplicator>4.0</RepulseMultiplicator>
+                        
+                        <TakeOffEffectPowerConsumptionMult>1</TakeOffEffectPowerConsumptionMult> 
+                        <EvadeEffectPowerConsumptionMult>1</EvadeEffectPowerConsumptionMult> 
+                        <PersonalSalvageBeamBonus>1.25</PersonalSalvageBeamBonus>   
+                       
+                       
+                        <RailMassEnhancerFreeMass>50.0</RailMassEnhancerFreeMass>   
+                        <RailMassEnhancerMassPerEnhancer>50.0</RailMassEnhancerMassPerEnhancer>   
+                        <RailMassEnhancerPowerConsumedPerEnhancer>50.0</RailMassEnhancerPowerConsumedPerEnhancer>   
+                        <RailMassEnhancerPercentCostPerMassAboveEnhancerProvided>0.05</RailMassEnhancerPercentCostPerMassAboveEnhancerProvided>   
+                        <RailMassEnhancerReactorPowerConsumptionResting>10.0</RailMassEnhancerReactorPowerConsumptionResting>
+                        <RailMassEnhancerReactorPowerConsumptionCharging>10.0</RailMassEnhancerReactorPowerConsumptionCharging>
+                        
+                        <AITurretMinOrientationSpeed>0.5</AITurretMinOrientationSpeed> 
+                        <AITurretMaxOrientationSpeed>3.5</AITurretMaxOrientationSpeed> 
+                        <AITurretOrientationSpeedDivByMass>50.0</AITurretOrientationSpeedDivByMass> 
+
+
+                        
+
+
+                        <StructureHpBlockMultiplier>1.0</StructureHpBlockMultiplier> 
+                        <HpDeductionLogOffset>-5</HpDeductionLogOffset> 
+                        <HpDeductionLogFactor>0.7</HpDeductionLogFactor> 
+                     
+                        <ShipRebootTimeInSecPerMissingHpPercent>40.0</ShipRebootTimeInSecPerMissingHpPercent> 
+                        <ShipRebootTimeMultiplierPerMass>0.0002</ShipRebootTimeMultiplierPerMass> 
+                        <ShipRebootTimeMinSec>30.0</ShipRebootTimeMinSec> 
+
+
+                        <ArmorThicknessBonus>0.0</ArmorThicknessBonus> 
+                        <ArmorBeamDamageResistance>0.0</ArmorBeamDamageResistance> 
+                        
+                        <AcidDamageArmorStoppedMargin>0.5</AcidDamageArmorStoppedMargin> 
+                        <ArmorOverPenetrationMarginMultiplicator>20.0</ArmorOverPenetrationMarginMultiplicator> 
+                        <NonArmorOverpenetrationMargin>2500.0</NonArmorOverpenetrationMargin> 
+
+
+						
+						<ArmorCalcStyle>EXPONENTIAL</ArmorCalcStyle> 
+						
+						
+						<CannonArmorFlatDamageReduction>0.0</CannonArmorFlatDamageReduction> 
+                        <CannonArmorThicknessDamageReduction>0.0</CannonArmorThicknessDamageReduction> 
+                        <CannonArmorThicknessDamageReductionMax>0.99</CannonArmorThicknessDamageReductionMax> 
+                        
+						
+						
+						<CannonArmorExponentialIncomingExponent>2.0</CannonArmorExponentialIncomingExponent>
+						<CannonArmorExponentialArmorValueTotalExponent>3.0</CannonArmorExponentialArmorValueTotalExponent>
+						<CannonArmorExponentialIncomingDamageAddedExponent>1.0</CannonArmorExponentialIncomingDamageAddedExponent>
+						
+						
+						
+						<BeamArmorFlatDamageReduction>0.0</BeamArmorFlatDamageReduction> 
+                        <BeamArmorThicknessDamageReduction>0.0</BeamArmorThicknessDamageReduction> 
+                        <BeamArmorThicknessDamageReductionMax>0.99</BeamArmorThicknessDamageReductionMax> 
+                        
+						
+						
+						<BeamArmorExponentialIncomingExponent>2.0</BeamArmorExponentialIncomingExponent>
+						<BeamArmorExponentialArmorValueTotalExponent>3.0</BeamArmorExponentialArmorValueTotalExponent>
+						<BeamArmorExponentialIncomingDamageAddedExponent>1.0</BeamArmorExponentialIncomingDamageAddedExponent>
+
+
+
+                        <ExplosionShieldDamageBonus>0.0</ExplosionShieldDamageBonus> 
+                        <ExplosionHullDamageBonus>0.0</ExplosionHullDamageBonus> 
+
+
+                        
+                        <PlanetPowerBaseCapacity>500</PlanetPowerBaseCapacity>
+                        <AsteroidPowerBaseCapacity>500</AsteroidPowerBaseCapacity>
+                        <VolumeMassMultiplier>0.01</VolumeMassMultiplier> 
+                        
+                  
+                  
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <ShieldEffectConfiguration>
+                        	<Kinetic>0.2</Kinetic>
+                        	<Heat>0.2</Heat>
+                        	<EM>0.0</EM>
+                        </ShieldEffectConfiguration>
+                        <IndividualBlockEffectArmorOnShieldHit>false</IndividualBlockEffectArmorOnShieldHit> 
+                        
+                        
+                        
+                        <BasicEffectConfiguration>
+                        	<Kinetic>0.0</Kinetic>
+                        	<Heat>0.2</Heat>
+                        	<EM>0.2</EM>
+                        </BasicEffectConfiguration>
+                        
+                        
+                        <ArmorEffectConfiguration>
+                        	<Kinetic>0.2</Kinetic>
+                        	<Heat>0.0</Heat>
+                        	<EM>0.2</EM>
+                        </ArmorEffectConfiguration>
+                        
+                        <ShieldLocalCapacityPerBlock>250</ShieldLocalCapacityPerBlock>
+                        <ShieldLocalRechargePerBlock>5</ShieldLocalRechargePerBlock>
+                        <ShieldLocalDefaultCapacity>0</ShieldLocalDefaultCapacity>
+
+                        <ShieldLocalRadiusCalcStyle>EXP</ShieldLocalRadiusCalcStyle> 
+                        <ShieldLocalDefaultRadius>10</ShieldLocalDefaultRadius>
+                     
+                            
+                            <ShieldLocalRadiusPerRechargeBlock>0.1</ShieldLocalRadiusPerRechargeBlock>
+
+                            
+                            <ShieldLocalRadiusExpMult>15.0</ShieldLocalRadiusExpMult>
+                            <ShieldLocalRadiusExp>0.3</ShieldLocalRadiusExp>
+
+                            
+                            <ShieldLocalRadiusLogFactor>20.0</ShieldLocalRadiusLogFactor>
+                            <ShieldLocalRadiusLogOffset>0.0</ShieldLocalRadiusLogOffset>
+
+                        <ShieldUpkeepPerSecondOfTotalCapacity>0.004</ShieldUpkeepPerSecondOfTotalCapacity>
+                        
+                        <ShieldLocalPowerConsumptionPerRechargePerSecondResting>10.0</ShieldLocalPowerConsumptionPerRechargePerSecondResting>
+                        <ShieldLocalPowerConsumptionPerRechargePerSecondCharging>10.0</ShieldLocalPowerConsumptionPerRechargePerSecondCharging>
+
+                        <ShieldLocalRechargeUnderFireModeSec>30.0</ShieldLocalRechargeUnderFireModeSec> 
+                        <ShieldLocalRechargeUnderFireMinPercent>0.5</ShieldLocalRechargeUnderFireMinPercent> 
+                        <ShieldLocalRechargeUnderFireStartAtCharged>1.0</ShieldLocalRechargeUnderFireStartAtCharged> 
+                        <ShieldLocalRechargeUnderFireEndAtCharged>0.20</ShieldLocalRechargeUnderFireEndAtCharged> 
+                        
+                        
+                        <ShieldLocalOnZeroShieldsRechargePreventionSec>10.0</ShieldLocalOnZeroShieldsRechargePreventionSec>
+                        <ShieldLocalHitAllOverlapping>true</ShieldLocalHitAllOverlapping>
+                        <ShieldLocalMaxCapacityGroupsPerLocalShield>20</ShieldLocalMaxCapacityGroupsPerLocalShield>
+
+                         
+                        <OverheatTimerMin>60</OverheatTimerMin> 
+                        <OverheatTimerMax>600</OverheatTimerMax>
+                        <OverheatTimerAddedSecondsPerBlock>0.001</OverheatTimerAddedSecondsPerBlock>
+
+                        
+                        <ReactorRebootMinCooldownSec>15</ReactorRebootMinCooldownSec> 
+                        <ReactorRebootLogFactor>2</ReactorRebootLogFactor>
+                        <ReactorRebootLogOffset>-2.5</ReactorRebootLogOffset>
+                        <ReactorRebootCooldownInSecPerMissingHpPercent>15</ReactorRebootCooldownInSecPerMissingHpPercent> 
+                        
+                        <ReactorConduitPowerConsuptionPerSec>0.0</ReactorConduitPowerConsuptionPerSec> 
+                        <ReactorSwitchCooldownSec>10</ReactorSwitchCooldownSec> 
+                        <ReactorRechargePercentPerSecond>1.0</ReactorRechargePercentPerSecond> 
+                        <ReactorRechargeMultiplierWhenEmpty>1.0</ReactorRechargeMultiplierWhenEmpty> 
+                        <ReactorMainCountMultiplier>1.0</ReactorMainCountMultiplier> 
+                        <ReactorPowerCapacityMultiplier>100.0</ReactorPowerCapacityMultiplier> 
+                        <ReactorStabilizationMultiplier>1.0</ReactorStabilizationMultiplier> 
+
+ 						
+ 			<ReactorExplosionStabilityMargin>0.5</ReactorExplosionStabilityMargin> 
+                        <ReactorExplosionStabilityLossMult>2.0</ReactorExplosionStabilityLossMult> 
+                        <ReactorExplosionCountMaxPercent>0.001</ReactorExplosionCountMaxPercent> 
+                        <ReactorExplosionCountPerBlocksInGroup>0.1</ReactorExplosionCountPerBlocksInGroup> 
+                        <ReactorExplosionCountMax>10</ReactorExplosionCountMax> 
+						
+                        <ReactorExplosionsPerSecond>2</ReactorExplosionsPerSecond> 
+                        <ReactorExplosionRadiusPerBlocksInGroup>0.001</ReactorExplosionRadiusPerBlocksInGroup>&gt; 
+                        <ReactorExplosionRadiusMax>5.0</ReactorExplosionRadiusMax> 
+						
+                        <ReactorExplosionDamagePerBlocksInGroup>5.0</ReactorExplosionDamagePerBlocksInGroup> 
+                        <ReactorExplosionDamageMax>10000.0</ReactorExplosionDamageMax> 
+
+                        <ReactorModuleDischargeMargin>0.9</ReactorModuleDischargeMargin> 
+
+                       
+						<ReactorLevelCalcStyle>LINEAR</ReactorLevelCalcStyle> 
+						
+      					 	
+							<ReactorLevelCalcLinearBlocksNeededPerLevel>100</ReactorLevelCalcLinearBlocksNeededPerLevel> 
+						
+
+
+						
+                        <ReactorCalcStyle>EXP</ReactorCalcStyle> 
+
+                            
+                            <ReactorStabilizerDistancePerMainReactorBlock>0.0</ReactorStabilizerDistancePerMainReactorBlock> 
+
+                            
+                            <ReactorStabilizerDistanceExpMult>10.0</ReactorStabilizerDistanceExpMult> 
+                            <ReactorStabilizerDistanceExp>0.333</ReactorStabilizerDistanceExp>
+                            
+                            <ReactorStabilizerDistanceExpSoftcapMult>0.5</ReactorStabilizerDistanceExpSoftcapMult>
+                            <ReactorStabilizerDistanceExpSoftcapExp>2.5</ReactorStabilizerDistanceExpSoftcapExp>
+                            <ReactorStabilizerDistanceExpSoftCapBlocksStart>150000</ReactorStabilizerDistanceExpSoftCapBlocksStart>
+
+                            
+                            <ReactorStabilizerDistanceLogFactor>1</ReactorStabilizerDistanceLogFactor> 
+                            <ReactorStabilizerDistanceLogOffset>1</ReactorStabilizerDistanceLogOffset>
+
+                            
+                            <ReactorStabilizerDistanceLogLeveledSteps>true</ReactorStabilizerDistanceLogLeveledSteps> 
+                            <ReactorStabilizerDistanceLogLeveledMultiplier>10</ReactorStabilizerDistanceLogLeveledMultiplier> 
+                            <ReactorStabilizerDistanceLogLeveledExp>2</ReactorStabilizerDistanceLogLeveledExp> 
+
+						
+                        <ReactorStabilizerStartingDistance>0.0</ReactorStabilizerStartingDistance> 
+                        <ReactorStabilizerLinearFalloffOne>0.0</ReactorStabilizerLinearFalloffOne> 
+                        <ReactorStabilizerLinearFalloffZero>0.0</ReactorStabilizerLinearFalloffZero> 
+                        <ReactorStabilizerFreeMainReactorBlocks>10</ReactorStabilizerFreeMainReactorBlocks> 
+                        <ReactorStabilizerDistanceTotalMult>2.0</ReactorStabilizerDistanceTotalMult>
+                        <ReactorStabilizerGroupingProximity>3.0</ReactorStabilizerGroupingProximity>
+                        
+                        
+                        <StabilizerBonusCalc>BY_SIDE</StabilizerBonusCalc> 
+                        
+                        
+
+						
+						<ReactorStablizationBonus2>0.0</ReactorStablizationBonus2> 
+                        <ReactorStablizationBonus3>0.0</ReactorStablizationBonus3> 
+                        <ReactorStablizationBonus4>0.0</ReactorStablizationBonus4> 
+                        <ReactorStablizationBonus5>0.0</ReactorStablizationBonus5> 
+                        <ReactorStablizationBonus6>0.0</ReactorStablizationBonus6> 
+
+						
+						
+						
+						<ReactorStablizationAngleBonus2Groups>1.0</ReactorStablizationAngleBonus2Groups> 
+                        <ReactorStablizationAngleBonus3Groups>1.0</ReactorStablizationAngleBonus3Groups> 
+                        <ReactorStablizationAngleBonus4Groups>0.8</ReactorStablizationAngleBonus4Groups> 
+                        <ReactorStablizationAngleBonus5Groups>0.6</ReactorStablizationAngleBonus5Groups> 
+                        <ReactorStablizationAngleBonus6Groups>0.5</ReactorStablizationAngleBonus6Groups> 
+
+
+
+                        
+
+
+
+
+                        <ReactorStabilizerGroupsMax>20</ReactorStabilizerGroupsMax> 
+
+                        <ReactorStabilizationPowerEffectiveFull>1.0</ReactorStabilizationPowerEffectiveFull> 
+                       
+                       
+                       
+                       
+                       
+                        
+                        
+                        
+                       
+                       
+                       
+                        
+                        
+                       
+                       
+                        
+                       
+
+                        <ReactorLowStabilizationExtraDamageStart>0.9999</ReactorLowStabilizationExtraDamageStart> 
+                        <ReactorLowStabilizationExtraDamageEnd>0.0</ReactorLowStabilizationExtraDamageEnd> 
+                        <ReactorLowStabilizationExtraDamageStartDamage>0.0</ReactorLowStabilizationExtraDamageStartDamage> 
+                        <ReactorLowStabilizationExtraDamageEndDamage>2.0</ReactorLowStabilizationExtraDamageEndDamage> 
+                        
+                        
+                        <ReactorStabilizationEnergyStreamHitCooldownPerDamageInSec>0.0005</ReactorStabilizationEnergyStreamHitCooldownPerDamageInSec> 
+                        <ReactorStabilizationEnergyStreamHitMinCooldownInSec>0.01</ReactorStabilizationEnergyStreamHitMinCooldownInSec> 
+                        <ReactorStabilizationEnergyStreamHitMaxCooldownInSec>15.0</ReactorStabilizationEnergyStreamHitMaxCooldownInSec> 
+                        <ReactorStabilizationEnergyStreamHitMaxCooldownReactorEfficiency>0.25</ReactorStabilizationEnergyStreamHitMaxCooldownReactorEfficiency> 
+                        <ReactorStabilizationEnergyStreamDistance>-1</ReactorStabilizationEnergyStreamDistance> 
+                       
+                      
+
+
+                       
+                       
+                       
+                        
+                        
+
+
+                        <ReactorStabilizerPathRadiusDefault>0.25</ReactorStabilizerPathRadiusDefault>
+                        <ReactorStabilizerPathRadiusPerLevel>0.025</ReactorStabilizerPathRadiusPerLevel>
+	
+                        <ReactorChamberBlocksPerMainReactor>0.1</ReactorChamberBlocksPerMainReactor> 
+
+                        
+                        <ReactorJumpPowerConsumptionRestingPerMass>0</ReactorJumpPowerConsumptionRestingPerMass> 
+                        <ReactorJumpPowerConsumptionChargingPerMass>5</ReactorJumpPowerConsumptionChargingPerMass> 
+                        
+                        <ReactorJumpDistanceDefault>10</ReactorJumpDistanceDefault> 
+                        <ReactorJumpChargeNeededInSecondsDefault>15</ReactorJumpChargeNeededInSecondsDefault> 
+                        <ReactorJumpChargeNeededInSecondsExtraPerMass>0</ReactorJumpChargeNeededInSecondsExtraPerMass>                         
+                        <ReactorJumpChargeNeededInSecondsLogFactor>0.25</ReactorJumpChargeNeededInSecondsLogFactor>
+                        <ReactorJumpChargeNeededInSecondsLogOffset>0.0</ReactorJumpChargeNeededInSecondsLogOffset>
+                        
+                        <ReactorScanChargeNeeded>5.0</ReactorScanChargeNeeded> 
+                        <ReactorScanChargeConsumptionResting>0.0</ReactorScanChargeConsumptionResting> 
+                        <ReactorScanChargeConsumptionCharging>50.0</ReactorScanChargeConsumptionCharging> 
+                        <ReactorScanChargeConsumptionRestingAddedByMass>0.0</ReactorScanChargeConsumptionRestingAddedByMass> 
+                        <ReactorScanChargeConsumptionChargingAddedByMass>5</ReactorScanChargeConsumptionChargingAddedByMass> 
+                        <ReactorScanDurationBasic>10</ReactorScanDurationBasic> 
+                        <ReactorScanStrengthBasic>1</ReactorScanStrengthBasic> 
+
+                        
+                        <ReactorStealthChargeNeeded>10.0</ReactorStealthChargeNeeded> 
+                        <ReactorStealthChargeConsumptionResting>0.0</ReactorStealthChargeConsumptionResting> 
+                        <ReactorStealthChargeConsumptionCharging>50.0</ReactorStealthChargeConsumptionCharging> 
+                        <ReactorStealthChargeConsumptionRestingAddedByMass>0.0</ReactorStealthChargeConsumptionRestingAddedByMass> 
+                        <ReactorStealthChargeConsumptionChargingAddedByMass>5</ReactorStealthChargeConsumptionChargingAddedByMass> 
+                        <ReactorStealthDurationBasic>10</ReactorStealthDurationBasic> 
+                        <ReactorStealthStrengthBasic>1</ReactorStealthStrengthBasic> 
+
+                        <ReconDifferenceMinCloaking>-1</ReconDifferenceMinCloaking> 
+                        <ReconDifferenceMinJamming>0</ReconDifferenceMinJamming> 
+                        <ReconDifferenceMinWeapons>1</ReconDifferenceMinWeapons> 
+                        <ReconDifferenceMinChambers>1</ReconDifferenceMinChambers> 
+                        <ReconDifferenceMinReactor>2</ReconDifferenceMinReactor> 
+	
+
+                        <CollectionIntegrityStartValue>400</CollectionIntegrityStartValue>
+                        <CollectionIntegrityBaseTouching0>-10</CollectionIntegrityBaseTouching0>
+                        <CollectionIntegrityBaseTouching1>-8.5</CollectionIntegrityBaseTouching1>
+                        <CollectionIntegrityBaseTouching2>-7</CollectionIntegrityBaseTouching2>
+                        <CollectionIntegrityBaseTouching3>-4</CollectionIntegrityBaseTouching3>
+                        <CollectionIntegrityBaseTouching4>-2</CollectionIntegrityBaseTouching4>
+                        <CollectionIntegrityBaseTouching5>0.5</CollectionIntegrityBaseTouching5>
+                        <CollectionIntegrityBaseTouching6>2</CollectionIntegrityBaseTouching6>
+                        <CollectionIntegrityMargin>0</CollectionIntegrityMargin> 
+
+                        <CollectionIntegrityExplosionAmount>3</CollectionIntegrityExplosionAmount> 
+                        <CollectionIntegrityExplosionRadius>6</CollectionIntegrityExplosionRadius> 
+
+                        <CollectionIntegrityExplosionRate>500</CollectionIntegrityExplosionRate> 
+						
+                        <CollectionIntegrityExplosionDamagePerBlocksInGroup>5.0</CollectionIntegrityExplosionDamagePerBlocksInGroup> 
+                        <CollectionIntegrityExplosionDamageMax>10000.0</CollectionIntegrityExplosionDamageMax> 
+
+                        <CollectionIntegrityUnderFireUpdateDelaySec>300.0</CollectionIntegrityUnderFireUpdateDelaySec> 
+    
+    
+    
+        
+                        
+                        <HpConditionTriggerList version="noreactor">
+                            <Item conditionhp="0.9">
+                                <Type>POWER</Type>
+                                <Amount>0.9</Amount>
+                            </Item>
+                            <Item conditionhp="0.9">
+                                <Type>SHIELD</Type>
+                                <Amount>0.9</Amount>
+                            </Item>
+                            <Item conditionhp="0.9">
+                                <Type>THRUST</Type>
+                                <Amount>0.9</Amount>
+                            </Item>
+						   
+                            <Item conditionhp="0.8">
+                                <Type>POWER</Type>
+                                <Amount>0.8</Amount>
+                            </Item>
+                            <Item conditionhp="0.8">
+                                <Type>SHIELD</Type>
+                                <Amount>0.8</Amount>
+                            </Item>
+                            <Item conditionhp="0.8">
+                                <Type>THRUST</Type>
+                                <Amount>0.8</Amount>
+                            </Item>
+						   
+                            <Item conditionhp="0.7">
+                                <Type>POWER</Type>
+                                <Amount>0.7</Amount>
+                            </Item>
+                            <Item conditionhp="0.7">
+                                <Type>SHIELD</Type>
+                                <Amount>0.7</Amount>
+                            </Item>
+                            <Item conditionhp="0.7">
+                                <Type>THRUST</Type>
+                                <Amount>0.7</Amount>
+                            </Item>
+						   
+                            <Item conditionhp="0.6">
+                                <Type>POWER</Type>
+                                <Amount>0.5</Amount>
+                            </Item>
+                            <Item conditionhp="0.6">
+                                <Type>SHIELD</Type>
+                                <Amount>0.5</Amount>
+                            </Item>
+                            <Item conditionhp="0.6">
+                                <Type>THRUST</Type>
+                                <Amount>0.5</Amount>
+                            </Item>
+						   
+                            <Item conditionhp="0.55">
+                                <Type>CONTROL_LOSS</Type>
+                            </Item>
+						   
+                            <Item conditionhp="0.5">
+                                <Type>OVERHEATING</Type>
+                            </Item>
+                            <Item conditionhp="0.5">
+                                <Type>POWER</Type>
+                                <Amount>0.0</Amount>
+                            </Item>
+                            <Item conditionhp="0.5">
+                                <Type>SHIELD</Type>
+                                <Amount>0.0</Amount>
+                            </Item>
+                            <Item conditionhp="0.5">
+                                <Type>THRUST</Type>
+                                <Amount>0.5</Amount>
+                            </Item>
+                        </HpConditionTriggerList>
+                        
+                         
+                        <HpConditionTriggerList>              
+                            <Item conditionhp="0.45">
+                                <Type>CONTROL_LOSS</Type>
+                            </Item>
+						   
+                            <Item conditionhp="0.40">
+                                <Type>OVERHEATING</Type>
+                            </Item>
+                            <Item conditionhp="0.40">
+                                <Type>POWER</Type>
+                                <Amount>0.0</Amount>
+                            </Item>
+                            <Item conditionhp="0.40">
+                                <Type>SHIELD</Type>
+                                <Amount>0.0</Amount>
+                            </Item>
+                            <Item conditionhp="0.40">
+                                <Type>THRUST</Type>
+                                <Amount>0.0</Amount>
+                            </Item>
+                        </HpConditionTriggerList> 	
+	
+                </BasicValues>
+        </General>
+        <Stabilizer>
+                <BasicValues>
+                </BasicValues>
+	    </Stabilizer>          
+        <Chamber>
+                <BasicValues>
+                </BasicValues>
+	    </Chamber>          
+        <Conduit>
+                <BasicValues>
+                </BasicValues>
+	    </Conduit>          
+        <Thruster>
+                <BasicValues>
+                        
+                        <MulTotalThrust version="noreactor">0.75</MulTotalThrust> 
+                        <PowTotalThrust version="noreactor">0.87</PowTotalThrust> 
+                        <UnitCalcMult version="noreactor">5.5</UnitCalcMult> 
+                       
+                        <ThrustPowerconsumptionPerBlock>1</ThrustPowerconsumptionPerBlock>       
+                        <PowPerThrustCollection>1</PowPerThrustCollection>       
+                        <UnitCalcStyle>LINEAR</UnitCalcStyle> 
+                        
+                        <MinThrustMassRatio>0.0</MinThrustMassRatio> 
+                        <MaxThrustMassRatio>5.0</MaxThrustMassRatio> 
+                        <ThrustMassRatioMaxSpeedAddition>1.0</ThrustMassRatioMaxSpeedAddition> 
+                        <ThrustMassRatioMaxSpeedMultiplier>1.0</ThrustMassRatioMaxSpeedMultiplier> 
+
+                       
+                        
+                        <ThrustBalanceChangeApplyTimeInSecs>15.0</ThrustBalanceChangeApplyTimeInSecs>                        
+                        
+                        
+                        <MulTotalThrust>45.0</MulTotalThrust> 
+                        <PowTotalThrust>0.75</PowTotalThrust> 
+                        <UnitCalcMult>1</UnitCalcMult> 
+                        
+                        <ReactorPowerPowerConsumptionPerBlockResting>0.0</ReactorPowerPowerConsumptionPerBlockResting> 
+                        <ReactorPowerPowerConsumptionPerBlockInUse>25.0</ReactorPowerPowerConsumptionPerBlockInUse> 
+                     
+                        <ThrusterMinReactorPower>0.05</ThrusterMinReactorPower> 
+                        <MaxThrustToMassAcceleration>10.0</MaxThrustToMassAcceleration>
+                        
+                        
+                        
+                        
+                        
+                        <ThrustRotPercentMult>50.0</ThrustRotPercentMult> 
+                        <InertiaPow>0.26</InertiaPow> 
+                        
+                        <MaxRotationalForceX>10.0</MaxRotationalForceX> 
+                        <MaxRotationalForceY>10.0</MaxRotationalForceY> 
+                        <MaxRotationalForceZ>0.75</MaxRotationalForceZ> 
+                        
+                        <BaseRotationalForceX>10.0</BaseRotationalForceX> 
+                        <BaseRotationalForceY>10.0</BaseRotationalForceY> 
+                        <BaseRotationalForceZ>0.10</BaseRotationalForceZ> 
+                        
+                        	
+                </BasicValues>
+        </Thruster>
+        <MainReactor>
+                <BasicValues>
+                </BasicValues>
+        </MainReactor>
+        <Cloaking>
+                <BasicValues>
+                        <PowerConsumedPerSecondPerBlock>145</PowerConsumedPerSecondPerBlock>
+                        
+                        <ReuseDelayOnActionMs>6000</ReuseDelayOnActionMs> 
+                        <ReuseDelayOnModificationMs>6000</ReuseDelayOnModificationMs>
+                        <ReuseDelayOnSwitchedOffMs>1000</ReuseDelayOnSwitchedOffMs>
+                        <ReuseDelayOnHitMs>10000</ReuseDelayOnHitMs>
+                        <ReuseDelayOnScanMs>30000</ReuseDelayOnScanMs>
+                        <ReuseDelayOnNoPowerMs>6000</ReuseDelayOnNoPowerMs>
+   
+                </BasicValues>
+        </Cloaking>
+        <Jamming>
+                <BasicValues>
+                        <PowerConsumedPerSecondPerBlock>5</PowerConsumedPerSecondPerBlock>
+                        
+                         <ReuseDelayOnActionMs>-1</ReuseDelayOnActionMs> 
+                        <ReuseDelayOnModificationMs>6000</ReuseDelayOnModificationMs>
+                        <ReuseDelayOnSwitchedOffMs>1000</ReuseDelayOnSwitchedOffMs>
+                        <ReuseDelayOnHitMs>10000</ReuseDelayOnHitMs>
+                        <ReuseDelayOnScanMs>30000</ReuseDelayOnScanMs>
+                        <ReuseDelayOnNoPowerMs>6000</ReuseDelayOnNoPowerMs>
+                </BasicValues>
+        </Jamming>
+
+        <JumpDrive>
+                <BasicValues>
+               		<RatioNeededToTotalBlockCount>0.05</RatioNeededToTotalBlockCount>
+                        <ChargeNeededForJump>230000</ChargeNeededForJump>
+                        <ChargeNeededForJumpPerBlock>1200</ChargeNeededForJumpPerBlock> 
+                        <ChargeNeededForJumpPerBlockAfterRatioMet>1</ChargeNeededForJumpPerBlockAfterRatioMet> 
+                        <ReloadMsAfterUseMs>10</ReloadMsAfterUseMs> 
+                        <ChargeAddedPerSecond>10000</ChargeAddedPerSecond> 
+                        <ChargeAddedPerSecondPerBlock>50</ChargeAddedPerSecondPerBlock> 
+                        <DistanceInSectors>8</DistanceInSectors>
+               </BasicValues>
+        </JumpDrive>
+		
+        <JumpInhibitor>
+                <BasicValues>
+                        <DischargePerSecond>10000</DischargePerSecond> 
+                        <DischargePerSecondPerBlock>50</DischargePerSecondPerBlock> 
+                        <PowerConsumptionPerSecond>20000</PowerConsumptionPerSecond> 
+                        <PowerConsumptionPerSecondPerBlock>100</PowerConsumptionPerSecondPerBlock> 
+                        <DischargeFriendlyShips>true</DischargeFriendlyShips>
+                        <DischargeSelf>true</DischargeSelf>
+                        <ReactorPowerConsumptionResting>2.5</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>5</ReactorPowerConsumptionCharging>
+                </BasicValues>
+        </JumpInhibitor>
+		
+        <Scanner>
+                <BasicValues>
+                        
+               		<RatioNeededToTotalBlockCount>0.05</RatioNeededToTotalBlockCount>
+                        <ChargeNeededForScan>110000</ChargeNeededForScan>
+                        <ChargeNeededForScanPerBlock>1200</ChargeNeededForScanPerBlock> 
+                        <ChargeNeededForScanPerBlockAfterRatioMet>1</ChargeNeededForScanPerBlockAfterRatioMet> 
+                        <ReloadMsAfterUseMs>10</ReloadMsAfterUseMs> 
+                        <DefaultScanDistance>4</DefaultScanDistance> 
+                        <EnemySystemDistanceMult>0.5</EnemySystemDistanceMult> 
+                        <AllySystemDistanceMult>1.5</AllySystemDistanceMult>  
+                        <ChargeAddedPerSecond>5000</ChargeAddedPerSecond> 
+                        <ChargeAddedPerSecondPerBlock>25</ChargeAddedPerSecondPerBlock> 
+                        <ECMStrengthMod>10</ECMStrengthMod>
+                </BasicValues>
+        </Scanner>
+        
+        <ShipYard>
+                <BasicValues>
+                        
+                        <PowerNeededPerShipyardBlock>50</PowerNeededPerShipyardBlock> 
+                        <ShipyardArcMaxSpacing>50</ShipyardArcMaxSpacing> 
+                        <ConstructionTickInSeconds>1</ConstructionTickInSeconds> 
+                        <ConstructionBlocksTakenPerTick>2500</ConstructionBlocksTakenPerTick> 
+                        <DeconstructionTimePerBlockInMilliseconds>0.01</DeconstructionTimePerBlockInMilliseconds> 
+                        <DeconstructionConstantTimeInMilliseconds>10000</DeconstructionConstantTimeInMilliseconds> 
+                        
+                        
+                        <ReactorPowerConsumptionResting>1.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>5.0</ReactorPowerConsumptionCharging>
+                </BasicValues>
+        </ShipYard>
+        <WarpGate>
+                <BasicValues>
+                        
+                        <PowerNeededPerGateBlock>100</PowerNeededPerGateBlock> 
+                        <PowerNeededPerMass>100</PowerNeededPerMass> 
+                        <DistanceInSectors>64</DistanceInSectors> 
+                        
+                        
+                        <ReactorPowerNeededPerBlockPerSec>10</ReactorPowerNeededPerBlockPerSec> 
+                        <ReactorPowerNeededPow>1.3</ReactorPowerNeededPow> 
+                </BasicValues>
+        </WarpGate>
+        <RaceGate>
+                <BasicValues>
+                        <PowerNeededPerGateBlock>0</PowerNeededPerGateBlock> 
+                        <PowerNeededPerMass>0</PowerNeededPerMass> 
+                </BasicValues>
+        </RaceGate>
+        <ActivationGate>
+                <BasicValues>
+                        <PowerNeededPerGateBlock>0</PowerNeededPerGateBlock> 
+                        <PowerNeededPerMass>0</PowerNeededPerMass> 
+                </BasicValues>
+        </ActivationGate>
+        <Transporter>
+                <BasicValues>
+                <PowerNeededPerGateBlock>0</PowerNeededPerGateBlock> 
+                </BasicValues>
+        </Transporter>
+        <Shop>
+                <BasicValues>
+                	<TradingGuildCargoPerShip>1000.0</TradingGuildCargoPerShip>
+                	<TradingGuildCostPerSystem>300</TradingGuildCostPerSystem>
+                	<TradingGuildCostPerCargoShip>1000</TradingGuildCostPerCargoShip>
+                	<TradingGuildTimePerSectorSec>3.0</TradingGuildTimePerSectorSec>
+                	<TradingGuildProfitOfValue>0.05</TradingGuildProfitOfValue>
+                	<TradingGuildProfitOfValuePerSystem>0.01</TradingGuildProfitOfValuePerSystem>
+                
+                </BasicValues>
+        </Shop>
+        <Explosive>
+                <BasicValues>
+                        <BlockDamage>2000</BlockDamage>
+                        <PlayerDamage>100</PlayerDamage>
+                        <Radius>8</Radius>
+                        <SpontaniousExplodeCheckFrequency>20</SpontaniousExplodeCheckFrequency>
+                </BasicValues>
+        </Explosive>
+         <MineLayer>
+                <BasicValues>
+	                <ReactorPowerNeededPerBlock>1.0</ReactorPowerNeededPerBlock>
+	                <ReactorPowerNeededPow>1.0</ReactorPowerNeededPow>
+	                <LayableMineDistance>10.0</LayableMineDistance>
+	                <CannonDamage>50.0</CannonDamage>
+	                <CannonReloadInSec>0.5</CannonReloadInSec>
+	                <CannonSpeed>2.0</CannonSpeed> 
+	                <CannonShotAtTargetCount>1</CannonShotAtTargetCount> 
+	                <CannonAmmo>8</CannonAmmo>
+
+ 					
+                    <MissileDamage>250.0</MissileDamage>
+	                <MissileSpeed>1.5</MissileSpeed> 
+	                <MissileReloadInSec>5.0</MissileReloadInSec>
+	                <MissileAmmo>4</MissileAmmo>
+                        
+                    
+	                <ProximityDamage>2000.0</ProximityDamage>
+	                <ProximitySpeed>0.75</ProximitySpeed> 
+
+
+					
+	                <CannonDamage1>1</CannonDamage1>
+	                <CannonDamage2>10</CannonDamage2>
+	                <CannonDamage3>50</CannonDamage3>
+	                <CannonDamage4>160</CannonDamage4>
+	                <CannonDamage5>320</CannonDamage5>
+	                <CannonDamage6>600</CannonDamage6>
+	                 
+	           
+	                <MissileDamage1>1</MissileDamage1>
+	                <MissileDamage2>10</MissileDamage2>
+	                <MissileDamage3>50</MissileDamage3>
+	                <MissileDamage4>160</MissileDamage4>
+	                <MissileDamage5>320</MissileDamage5>
+	                <MissileDamage6>600</MissileDamage6>
+	                
+	                
+	                <ProximityDamage1>1</ProximityDamage1>
+	                <ProximityDamage2>10</ProximityDamage2>
+	                <ProximityDamage3>50</ProximityDamage3>
+	                <ProximityDamage4>160</ProximityDamage4>
+	                <ProximityDamage5>320</ProximityDamage5>
+	                <ProximityDamage6>600</ProximityDamage6>
+	                 
+	                
+	                <BlockConsumption1>1</BlockConsumption1>
+	                <BlockConsumption2>2</BlockConsumption2>
+	                <BlockConsumption3>4</BlockConsumption3>
+	                <BlockConsumption4>6</BlockConsumption4>
+	                <BlockConsumption5>8</BlockConsumption5>
+	                <BlockConsumption6>10</BlockConsumption6>
+	                 
+	                 
+                   
+                </BasicValues>
+        </MineLayer>
+        <Cargo>
+		<BasicValues>
+                        <CapacityPerBlockMultShip>100.0</CapacityPerBlockMultShip>  
+                        <CapacityPerBlockMultStation>100.0</CapacityPerBlockMultStation>  
+	        	<CapacityPerGroupQuadraticShip>1.0</CapacityPerGroupQuadraticShip> 
+	        	<CapacityPerGroupQuadraticStation>1.0</CapacityPerGroupQuadraticStation> 
+
+                        <InventoryBaseCapacityShip>100</InventoryBaseCapacityShip> 
+                        <InventoryBaseCapacityStation>100</InventoryBaseCapacityStation> 
+
+                        <PercentageBledPerMinute>0.1</PercentageBledPerMinute> 
+
+                        <PersonalInventoryBaseCapacity>2000</PersonalInventoryBaseCapacity> 
+                        <PersonalFactoryBaseCapacity>100</PersonalFactoryBaseCapacity> 
+		</BasicValues>
+        </Cargo>
+		<Factory>
+			<BasicValues>
+				<ReactorPowerConsumptionPerBlockResting>10</ReactorPowerConsumptionPerBlockResting>
+				<ReactorPowerConsumptionPerBlockCharging>50</ReactorPowerConsumptionPerBlockCharging>
+			</BasicValues>
+        </Factory>
+        <TractorBeam>
+                <BasicValues>			
+                        <TractorMassPerBlock>10</TractorMassPerBlock> 
+                        <ReactorPowerConsumptionResting>10.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>50.0</ReactorPowerConsumptionCharging>
+
+                        <ForceToMassMax>10</ForceToMassMax> 
+                        <TickRate>0.0249</TickRate>  
+                        <Distance>1.0</Distance>  
+                        <CoolDown>0</CoolDown> 
+                        <BurstTime>-1</BurstTime> 
+                        <InitialTicks>0</InitialTicks> 
+                        <RailHitMultiplierParent>0</RailHitMultiplierParent> 
+                        <RailHitMultiplierChild>0</RailHitMultiplierChild> 
+                </BasicValues>
+        </TractorBeam>
+        <SalvageBeam>
+                <BasicValues>			
+                        <SalvageDamagePerHit version="noreactor">2</SalvageDamagePerHit> 
+
+                        <SalvageDamagePerHit>25</SalvageDamagePerHit> 
+                        <ReactorPowerConsumptionResting>5.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>25.0</ReactorPowerConsumptionCharging>
+
+                        <TickRate>0.0624999</TickRate>  
+                        <PowerConsumptionPerTick>0.4</PowerConsumptionPerTick>
+                        <Distance>0.48</Distance>  
+                        <CoolDown>5</CoolDown> 
+                        <BurstTime>-1</BurstTime> 
+                        <InitialTicks>10</InitialTicks> 
+                        <SalvageDamageNeededPerBlock>200</SalvageDamageNeededPerBlock>                     
+                        <RailHitMultiplierParent>0</RailHitMultiplierParent> 
+                        <RailHitMultiplierChild>0</RailHitMultiplierChild> 
+                </BasicValues>
+        </SalvageBeam>
+      
+        <RepairBeam>
+                <BasicValues>                        
+                        <RepairPerHit version="noreactor">60</RepairPerHit>
+                        
+                        <RepairPerHit>1</RepairPerHit>
+                        <ReactorPowerConsumptionResting>5.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>25.0</ReactorPowerConsumptionCharging>
+                        
+                        <TickRate>0.04999</TickRate>  
+                        <PowerConsumptionPerTick>240</PowerConsumptionPerTick>
+                        <Distance>0.12</Distance>  
+                        <CoolDown>5</CoolDown> 
+                        <BurstTime>-1</BurstTime> 
+                        <InitialTicks>0</InitialTicks> 
+                        <RailHitMultiplierParent>1.0</RailHitMultiplierParent> 
+                        <RailHitMultiplierChild>1.0</RailHitMultiplierChild>                         
+                        <RepairOutOfCombatDelaySec>60.0</RepairOutOfCombatDelaySec>                         
+                </BasicValues>
+        </RepairBeam>
+        <Trigger>
+        </Trigger>
+        <Activation>
+        </Activation>
+        <Sensor>
+        </Sensor>
+        <RailSpeed>
+        </RailSpeed>
+        <RailInventory>
+        </RailInventory>
+        <FafoMissile>        
+        </FafoMissile>
+        <HeatMissile>        
+        </HeatMissile>
+        <TurretDockingBlock>
+        </TurretDockingBlock>
+        <FixedDockingBlock>
+        </FixedDockingBlock>
+        <Cannon>
+                <BasicValues>
+                        
+                        <Damage version="noreactor">10</Damage>
+                        <PowerConsumption>100</PowerConsumption>
+
+                        
+                        <Damage>13.53</Damage>                        
+                        <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging>
+                        
+                        <Distance>4.5</Distance> 
+                        <Speed>90</Speed> 
+                        <ReloadMs>1000</ReloadMs>
+                        <AdditionalPowerConsumptionPerUnitMult>0.0</AdditionalPowerConsumptionPerUnitMult> 
+
+ 						<Recoil>2.0</Recoil>  
+						<ImpactForce>0.75</ImpactForce>  
+                        
+                        
+                        
+                        <CursorRecoilX>0.0</CursorRecoilX> 
+                        <CursorRecoilMinX>0.0</CursorRecoilMinX> 
+                        <CursorRecoilMaxX>0.0</CursorRecoilMaxX> 
+                        <CursorRecoilDirX>0.0</CursorRecoilDirX> 
+                        
+                        
+                        <CursorRecoilY>0.0</CursorRecoilY> 
+                        <CursorRecoilMinY>0.0</CursorRecoilMinY> 
+                        <CursorRecoilMaxY>0.0</CursorRecoilMaxY> 
+                        <CursorRecoilDirY>0.0</CursorRecoilDirY> 
+                        
+
+                        <CursorRecoilSpeedIn>0.0</CursorRecoilSpeedIn> 
+                        <CursorRecoilSpeedInAddMod>0.0</CursorRecoilSpeedInAddMod> 
+                        <CursorRecoilSpeedInPowMult>0.0</CursorRecoilSpeedInPowMult>
+
+                        <CursorRecoilSpeedOut>0.0</CursorRecoilSpeedOut> 
+                        <CursorRecoilSpeedOutAddMod>0.0</CursorRecoilSpeedOutAddMod> 
+                        <CursorRecoilSpeedOutPowMult>0.0</CursorRecoilSpeedOutPowMult>
+
+                        <ProjectileWidth>1.0</ProjectileWidth> 
+                        
+                        <BasicPenetrationDepth>1</BasicPenetrationDepth>
+                        <PenetrationDepthExp>0.35</PenetrationDepthExp>
+                        <PenetrationDepthExpMult>0.4</PenetrationDepthExpMult>
+                        
+                        <AcidDamageMaxPropagation>200</AcidDamageMaxPropagation>  
+                        
+                         
+                         
+                        <AcidDamageFormulaConeStartWideWeight>1.8</AcidDamageFormulaConeStartWideWeight> 
+                        <AcidDamageFormulaConeEndWideWeight>0.2</AcidDamageFormulaConeEndWideWeight> 
+                        
+                        
+                        <AcidDamageMinOverPenModifier>1.0</AcidDamageMinOverPenModifier>
+                        <AcidDamageMaxOverPenModifier>5.0</AcidDamageMaxOverPenModifier>
+                        
+                        
+                        <AcidDamageMinOverArmorModifier>1.0</AcidDamageMinOverArmorModifier>
+                        <AcidDamageMaxOverArmorModifier>4.0</AcidDamageMaxOverArmorModifier>
+                        <AcidDamageOverArmorBaseReference>250</AcidDamageOverArmorBaseReference> 
+
+
+                        <AcidFormulaDefault>0</AcidFormulaDefault> 
+                        <DamageChargeMax>0.0</DamageChargeMax> 
+                        <DamageChargeSpeed>0.0</DamageChargeSpeed> 
+                        
+                        <PossibleZoom>0.45</PossibleZoom> 
+                        <Aimable>1</Aimable> 
+						<EffectConfiguration>
+                        	<Kinetic>1.5</Kinetic>
+                        	<Heat>0.5</Heat>
+                        	<EM>1.0</EM>
+                        </EffectConfiguration>
+						
+                </BasicValues>
+                <Combination>
+                        <Cannon>
+                            
+                            
+                            
+
+                            <Damage linear="true" style="nerf" value="6.53" />
+                            <Reload style="nerf" value="10" />
+                            <Distance style="nerf" value="1.5" />
+                            <Speed style="skip" />
+                            <Recoil style="skip" />
+                            <ImpactForce style="nerf" value="2" />
+                            <PowerConsumption inverse="true" linear="true" style="buff" value="10" version="noreactor" />
+                            <PowerConsumption linear="true" style="skip" />
+                            <AcidFormula style="skip" />
+                            <ProjectileWidth style="skip" />
+                            <ChargeMax style="skip" />
+                            <ChargeSpeed style="skip" />
+                                
+                            <CursorRecoilX style="skip" /> 
+                            <CursorRecoilMinX style="skip" /> 
+                            <CursorRecoilMaxX style="skip" /> 
+                            <CursorRecoilDirX style="skip" /> 
+                        		
+                            <CursorRecoilY style="skip" /> 
+                            <CursorRecoilMinY style="skip" /> 
+                            <CursorRecoilMaxY style="skip" /> 
+                            <CursorRecoilDirY style="skip" /> 
+                            
+                            <PossibleZoom style="skip" />
+                            <Aimable style="skip" /> 
+                        </Cannon>
+                        <Missile>
+                            
+                            
+                                    
+                            <Damage linear="true" style="buff" value="8.51" />
+                            <Reload style="buff" value="2" /> 
+                            <Distance style="nerf" value="3.0" />
+                            <Speed style="skip" />
+                            <Recoil style="skip" />
+                            <ImpactForce style="buff" value="4.0" />
+                            <PowerConsumption inverse="true" linear="true" style="nerf" value="10" version="noreactor" />
+                            <PowerConsumption linear="true" style="skip" />
+                            <ProjectileWidth style="buff" value="1" />
+                            <AcidFormula style="set" value="2" />
+                            <ChargeMax style="set" value="1.3" />
+                            <ChargeSpeed style="set" value="1.0" />
+                            
+                            <CursorRecoilX style="skip" /> 
+                            <CursorRecoilMinX style="skip" /> 
+                            <CursorRecoilMaxX style="skip" /> 
+                            <CursorRecoilDirX style="skip" /> 
+                                
+                            <CursorRecoilY style="skip" /> 
+                            <CursorRecoilMinY style="skip" /> 
+                            <CursorRecoilMaxY style="skip" /> 
+                            <CursorRecoilDirY style="skip" /> 
+                            
+                            <PossibleZoom style="skip" />
+                            <Aimable style="skip" /> 
+                        </Missile>
+                        <Beam> 
+                            
+                            
+                                  
+                            <Damage linear="true" style="buff" value="6.39" /> 
+                            <Reload style="buff" value="9.0" /> 
+                            <Distance style="buff" value="0.3333" />
+                            <Speed style="skip" /> 
+                            <Recoil style="skip" />
+                            <ImpactForce style="buff" value="5" />
+                            <PowerConsumption inverse="true" linear="true" style="nerf" value="30" version="noreactor" /> 
+                            <PowerConsumption linear="true" style="skip" /> 
+                            <ProjectileWidth style="skip" />
+                            <AcidFormula style="set" value="1" />
+                            <ChargeMax style="skip" />
+                            <ChargeSpeed style="skip" />         
+                                
+                            <CursorRecoilX style="skip" /> 
+                            <CursorRecoilMinX style="skip" /> 
+                            <CursorRecoilMaxX style="skip" /> 
+                            <CursorRecoilDirX style="skip" /> 
+                        		
+                            <CursorRecoilY style="skip" /> 
+                            <CursorRecoilMinY style="skip" /> 
+                            <CursorRecoilMaxY style="skip" /> 
+                            <CursorRecoilDirY style="skip" /> 
+                            
+                            <PossibleZoom style="set" value="0.2" />
+                            <Aimable style="skip" /> 
+                        </Beam>
+                </Combination>
+        </Cannon>
+        <MissileCapacity>
+        	 <BasicValues>
+                        <BasicMissileCapacity>0.0</BasicMissileCapacity>
+                        <MissileCapacityReloadMode>ALL</MissileCapacityReloadMode>  
+                        <MissileCapacityPerSec>0.2</MissileCapacityPerSec> 
+                        <MissileCapacityReloadConstant>10.0</MissileCapacityReloadConstant> 
+                        <MissileCapacityReloadResetOnFireManual>false</MissileCapacityReloadResetOnFireManual> 
+                        <MissileCapacityReloadResetOnFireAI>false</MissileCapacityReloadResetOnFireAI> 
+                         
+                        <ReactorPowerConsumptionResting>20</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>20</ReactorPowerConsumptionCharging>
+
+                        <MissileCapacityCalcStyle>EXP</MissileCapacityCalcStyle> 
+                        
+                        
+                        <MissileCapacityPerBlock>0.1</MissileCapacityPerBlock>
+                        
+                        
+                        <MissileCapacityExp>0.48</MissileCapacityExp>
+                        <MissileCapacityExpMult>1.0</MissileCapacityExpMult>
+                        
+                        
+                        <MissileCapacityExpMultFirstHalf>0.02</MissileCapacityExpMultFirstHalf>
+                        <MissileCapacityExpFirstHalf>1.5</MissileCapacityExpFirstHalf>
+                        
+                        <MissileCapacityExpThreshold>10000</MissileCapacityExpThreshold>
+                        
+                        <MissileCapacityExpMultSecondHalf>0.5</MissileCapacityExpMultSecondHalf>
+                        <MissileCapacityExpSecondHalf>0.45</MissileCapacityExpSecondHalf>
+                        
+                        
+                        <MissileCapacityLogFactor>20.0</MissileCapacityLogFactor>
+                        <MissileCapacityLogOffset>1.0</MissileCapacityLogOffset>            
+             </BasicValues>
+        </MissileCapacity>
+        <Missile>
+                <BasicValues>
+                        <Damage version="noreactor">300</Damage>
+                        
+                        <Damage>82.82</Damage>
+                        <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging> 
+                        <AdditionalCapacityUsedPerDamage>0</AdditionalCapacityUsedPerDamage> 
+                        <AdditionalCapacityUsedPerDamageMult>0</AdditionalCapacityUsedPerDamageMult> 
+
+                        <PercentagePowerUsageCharging>0</PercentagePowerUsageCharging> 
+                        <PercentagePowerUsageResting>0</PercentagePowerUsageResting> 
+                        
+                        <LockOnTimeSec>0.5</LockOnTimeSec> 
+                        <LockedOnExpireTimeSec>3</LockedOnExpireTimeSec> 
+                        
+                        <Distance>3.0</Distance> 
+                        <Speed>10</Speed>               
+                        <ReloadMs>2000</ReloadMs>
+                        <PowerConsumption>1500</PowerConsumption> 
+                        <AdditionalPowerConsumptionPerUnitMult>0.0</AdditionalPowerConsumptionPerUnitMult> 
+                        <ChasingTurnSpeedWithTargetInFront>7.0</ChasingTurnSpeedWithTargetInFront> 
+                        <ChasingTurnSpeedWithTargetInBack>8.0</ChasingTurnSpeedWithTargetInBack> 
+                        
+                        <MissileHPCalcStyle>LINEAR</MissileHPCalcStyle> 
+                        <PossibleZoom>0.4</PossibleZoom> 
+                        
+                        
+                        <MissileHPMin>1</MissileHPMin>
+                        
+                        
+                        <MissileHPPerDamage>0.01</MissileHPPerDamage>
+                        
+                        
+                        <MissileHPExp>0.7</MissileHPExp>
+                        <MissileHPExpMult>2</MissileHPExpMult>
+                        
+                        
+                        <MissileHPLogOffset>0</MissileHPLogOffset>
+                        <MissileHPLogFactor>1</MissileHPLogFactor>
+
+                        <BombActivationTimeSec>1.5</BombActivationTimeSec>  
+                        
+                                
+                        <EffectConfiguration>
+                        	<Kinetic>0.5</Kinetic>
+                        	<Heat>1.5</Heat>
+                        	<EM>1.0</EM>
+                        </EffectConfiguration>
+                </BasicValues>
+                <Combination>
+                        <Cannon> 
+                             <Damage linear="true" style="buff" value="0.63" />
+                             <Reload style="buff" value="1.5" />
+                             <Distance style="buff" value="0.5" />
+                             <LockOnTimeSec style="skip" />
+                              
+                             <Speed style="skip" />
+                             <Split style="buff" value="10" />
+                             <Mode style="set" value="1" />
+                             <PowerConsumption linear="true" style="skip" />
+                             
+                             <AdditionalCapacityUsedPerDamage style="skip" />
+                             <AdditionalCapacityUsedPerDamageMult style="skip" /> 
+                             <PercentagePowerUsageResting style="skip" />
+                             <PercentagePowerUsageCharging style="skip" />
+                             
+                             <PossibleZoom style="set" value="0" /> 
+                        </Cannon>
+                        <Missile> 
+                            <Damage linear="true" style="buff" value="80" /> 
+                            <Reload style="buff" value="19" />
+                            <Distance style="nerf" value="6" />
+                            <LockOnTimeSec style="skip" />
+                            
+                            <Speed style="buff" value="1.0" />
+                            <Split style="skip" />
+                            <Mode style="set" value="3" /> 
+                            <PowerConsumption linear="true" style="skip" />
+                            
+                            <AdditionalCapacityUsedPerDamage style="skip" />  
+                            <AdditionalCapacityUsedPerDamageMult style="skip" /> 
+                            <PercentagePowerUsageResting style="set" value="0.005" />
+                            <PercentagePowerUsageCharging style="set" value="0.005" />
+                            
+                            <PossibleZoom style="set" value="0.5" />
+                        </Missile>
+                        <Beam> 
+                            <Damage linear="true" style="buff" value="0.21" />
+                            <Reload style="buff" value="1.5" />
+                            <Distance style="buff" value="1" />
+                            <LockOnTimeSec style="skip" />
+                            
+                            <Speed style="skip" />
+                            <Split style="skip" />
+                            <Mode style="set" value="2" />
+                            <PowerConsumption inverse="true" linear="true" style="nerf" value="2" version="noreactor" />
+                            <PowerConsumption linear="true" style="skip" />
+                            
+                            <AdditionalCapacityUsedPerDamage style="skip" />
+                            <AdditionalCapacityUsedPerDamageMult style="skip" /> 
+                            <PercentagePowerUsageResting style="skip" />
+                            <PercentagePowerUsageCharging style="skip" />
+                            
+                            <PossibleZoom style="set" value="0" /> 
+                        </Beam>
+                </Combination>
+        </Missile>
+        <DamageBeam>
+                <BasicValues>
+                
+                        <DamageReductionPerArmorValueMult>0.0</DamageReductionPerArmorValueMult> 
+                        <DamagePerHit version="noreactor">10</DamagePerHit>
+                        
+                        <DamagePerHit>3.79</DamagePerHit>  
+                        <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging>
+                        
+                        <PowerConsumptionPerTick>100</PowerConsumptionPerTick> 
+                        <Distance>4.5</Distance> 
+                        <TickRate>0.1999</TickRate>  
+                        <CoolDown>10.0</CoolDown> 
+                        <BurstTime>5.0</BurstTime> 
+                        <InitialTicks>0</InitialTicks> 
+                        <AdditionalPowerConsumptionPerUnitMult>0.0</AdditionalPowerConsumptionPerUnitMult> 
+                        <RailHitMultiplierParent>0</RailHitMultiplierParent> 
+                        <RailHitMultiplierChild>0</RailHitMultiplierChild>  						
+                        
+                        <LatchOn>0</LatchOn> 
+                        <CheckLatchConnection>1</CheckLatchConnection> 
+                        <Penetration>0</Penetration> 
+                        <AcidDamagePercentage>1.0</AcidDamagePercentage> 
+                        <FriendlyFire>0</FriendlyFire> 
+                        <Aimable>1</Aimable> 
+                        
+                        <ChargeTime>0</ChargeTime> 
+                        <DropShieldsOnCharging>false</DropShieldsOnCharging> 
+                        <MinEffectiveValue>1.0</MinEffectiveValue> 
+                        <MinEffectiveRange>0.5</MinEffectiveRange> 
+                        
+                        <MaxEffectiveValue>0.4</MaxEffectiveValue> 
+                        <MaxEffectiveRange>1.0</MaxEffectiveRange> 
+                        <PossibleZoom>0.5</PossibleZoom>  
+                        
+                        <EffectConfiguration>
+                        	<Kinetic>0.5</Kinetic>
+                        	<Heat>1.0</Heat>
+                        	<EM>1.5</EM>
+                        </EffectConfiguration>
+                </BasicValues>
+                <Combination>
+                        <Cannon> 
+                            <HitSpeed style="skip" /> 
+                            <Distance style="nerf" value="1.5" />
+
+                            <PowerConsumptionResting inverse="true" linear="true" style="buff" value="5" version="noreactor" />
+                            <PowerConsumptionResting linear="true" style="skip" />
+                            <PowerConsumptionCharging linear="true" style="skip" />
+
+                            <PowerPerHit linear="true" style="nerf" value="1.31" /> 
+                            <CoolDown style="nerf" value="10" /> 
+                            <BurstTime style="nerf" value="5" /> 
+
+                            <InitialTicks style="skip" /> 
+
+                            <LatchOn style="skip" />
+                            <CheckLatchConnection style="skip" />
+                            <Penetration style="set" value="0" />
+                            <AcidDamagePercentage style="skip" />
+                            <FriendlyFire style="set" value="0" />
+                            <Aimable style="set" value="1" />
+
+                            <ChargeTime style="skip" /> 
+                            <MinEffectiveValue style="skip" />&gt; 
+                            <MinEffectiveRange style="skip" /> 
+
+                            <MaxEffectiveValue style="skip" /> 
+                            <MaxEffectiveRange style="skip" /> 
+                            
+                            <PossibleZoom style="set" value="0.3" />
+                        </Cannon>
+                        <Missile> 
+                            <HitSpeed style="skip" /> 
+                            <Distance style="nerf" value="3.0" />
+
+                            <PowerConsumptionResting linear="true" style="skip" />
+                            <PowerConsumptionCharging linear="true" style="skip" />
+                            
+                            <PowerPerHit linear="true" style="buff" value="2.17" /> 
+                            <CoolDown style="nerf" value="2.0" /> 
+                            <BurstTime style="nerf" value="2.0" /> 
+
+                            <InitialTicks style="skip" /> 
+                            
+                          
+                            <LatchOn style="set" value="0" />
+                            <CheckLatchConnection style="set" value="1" />
+                            <Penetration style="set" value="0" />
+                            <AcidDamagePercentage style="skip" /> 
+                            <FriendlyFire style="set" value="0" />
+                            <Aimable style="set" value="1" />
+                            
+                            <ChargeTime style="set" value="3.0" /> 
+                            <MinEffectiveValue style="skip" /> 
+                            <MinEffectiveRange style="skip" /> 
+
+                            <MaxEffectiveValue style="skip" /> 
+                            <MaxEffectiveRange style="skip" /> 
+                            
+                            <PossibleZoom style="set" value="0.0" />
+                        </Missile>
+                        <Beam> 
+                            <HitSpeed style="skip" /> 
+                            <Distance style="buff" value="0.33" />
+
+                            <PowerConsumptionResting inverse="true" linear="true" style="nerf" value="2" version="noreactor" />                                
+                            <PowerConsumptionResting linear="true" style="skip" />
+                            <PowerConsumptionCharging linear="true" style="skip" />
+
+                            <PowerPerHit linear="true" style="buff" value="3.62" />
+                            <CoolDown style="nerf" value="2.0" /> 
+                            <BurstTime style="nerf" value="12.5" /> 
+
+                            <InitialTicks style="skip" /> 
+                            
+                            <LatchOn style="set" value="0" />
+                            <CheckLatchConnection style="set" value="1" />
+                            <Penetration style="skip" />
+                            <AcidDamagePercentage style="skip" />
+                            <FriendlyFire style="set" value="0" />
+                            <Aimable style="set" value="1" />
+                            
+                            <ChargeTime style="skip" /> 
+                            <MinEffectiveValue style="skip" />&gt; 
+                            <MinEffectiveRange style="skip" /> 
+
+                            <MaxEffectiveValue style="skip" /> 
+                            <MaxEffectiveRange style="skip" /> 
+                            
+                            <PossibleZoom style="set" value="0.1" />
+                        </Beam>
+                </Combination>
+        </DamageBeam>
+        <PushPulse>
+                <BasicValues>
+                        <Force>25</Force>
+                        <ReloadMs>5000</ReloadMs>
+                        <Radius>100</Radius>
+                        <PowerConsumption>250</PowerConsumption>
+                        <ReactorPowerConsumptionResting>3.0</ReactorPowerConsumptionResting>
+                        <ReactorPowerConsumptionCharging>15.0</ReactorPowerConsumptionCharging>
+                </BasicValues>
+        </PushPulse>
+        
+        
+		
+        <EM>
+            <BasicValues>  
+                <EffectConfiguration>
+                    <Kinetic>-0.5</Kinetic>
+                    <Heat>-0.5</Heat>
+                    <EM>1.0</EM>
+                </EffectConfiguration>
+            </BasicValues>
+        </EM>
+        <Heat>
+            <BasicValues>  
+                <EffectConfiguration>
+                    <Kinetic>-0.5</Kinetic>
+                    <Heat>1.0</Heat>
+                    <EM>-0.5</EM>
+                </EffectConfiguration>
+            </BasicValues>
+        </Heat>
+        <Kinetic>
+            <BasicValues>  
+                <EffectConfiguration>
+                    <Kinetic>1.0</Kinetic>
+                    <Heat>-0.5</Heat>
+                    <EM>-0.5</EM>
+                </EffectConfiguration>
+            </BasicValues>
+        </Kinetic>
+		
+		
+       
+</BlockBehavior>
