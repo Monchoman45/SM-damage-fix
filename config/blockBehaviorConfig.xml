@@ -152,25 +152,25 @@
                         
                         
                         <ShieldEffectConfiguration>
-                        	<Kinetic>0.2</Kinetic>
-                        	<Heat>0.2</Heat>
-                        	<EM>0.0</EM>
+                        	<Kinetic>0.3</Kinetic>
+                        	<Heat>0.3</Heat>
+                        	<EM>-0.6</EM>
                         </ShieldEffectConfiguration>
                         <IndividualBlockEffectArmorOnShieldHit>false</IndividualBlockEffectArmorOnShieldHit> 
                         
                         
                         
                         <BasicEffectConfiguration>
-                        	<Kinetic>0.0</Kinetic>
-                        	<Heat>0.2</Heat>
-                        	<EM>0.2</EM>
+                        	<Kinetic>-0.6</Kinetic>
+                        	<Heat>0.3</Heat>
+                        	<EM>0.3</EM>
                         </BasicEffectConfiguration>
                         
                         
                         <ArmorEffectConfiguration>
-                        	<Kinetic>0.2</Kinetic>
-                        	<Heat>0.0</Heat>
-                        	<EM>0.2</EM>
+                        	<Kinetic>0.3</Kinetic>
+                        	<Heat>-0.6</Heat>
+                        	<EM>0.3</EM>
                         </ArmorEffectConfiguration>
                         
                         <ShieldLocalCapacityPerBlock>250</ShieldLocalCapacityPerBlock>
@@ -870,7 +870,7 @@
                         <PowerConsumption>100</PowerConsumption>
 
                         
-                        <Damage>13.53</Damage>                        
+                        <Damage>12</Damage>                        
                         <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
                         <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging>
                         
@@ -934,9 +934,9 @@
                         <PossibleZoom>0.45</PossibleZoom> 
                         <Aimable>1</Aimable> 
 						<EffectConfiguration>
-                        	<Kinetic>1.5</Kinetic>
-                        	<Heat>0.5</Heat>
-                        	<EM>1.0</EM>
+                        	<Kinetic>0.5</Kinetic>
+                        	<Heat>0.17</Heat>
+                        	<EM>0.33</EM>
                         </EffectConfiguration>
 						
                 </BasicValues>
@@ -1073,7 +1073,7 @@
                 <BasicValues>
                         <Damage version="noreactor">300</Damage>
                         
-                        <Damage>82.82</Damage>
+                        <Damage>75</Damage>
                         <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
                         <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging> 
                         <AdditionalCapacityUsedPerDamage>0</AdditionalCapacityUsedPerDamage> 
@@ -1114,9 +1114,9 @@
                         
                                 
                         <EffectConfiguration>
-                        	<Kinetic>0.5</Kinetic>
-                        	<Heat>1.5</Heat>
-                        	<EM>1.0</EM>
+                        	<Kinetic>0.33</Kinetic>
+                        	<Heat>0.5</Heat>
+                        	<EM>0.17</EM>
                         </EffectConfiguration>
                 </BasicValues>
                 <Combination>
@@ -1183,7 +1183,7 @@
                         <DamageReductionPerArmorValueMult>0.0</DamageReductionPerArmorValueMult> 
                         <DamagePerHit version="noreactor">10</DamagePerHit>
                         
-                        <DamagePerHit>3.79</DamagePerHit>  
+                        <DamagePerHit>3.5</DamagePerHit>  
                         <ReactorPowerConsumptionResting>25.0</ReactorPowerConsumptionResting>
                         <ReactorPowerConsumptionCharging>100.0</ReactorPowerConsumptionCharging>
                         
@@ -1214,9 +1214,9 @@
                         <PossibleZoom>0.5</PossibleZoom>  
                         
                         <EffectConfiguration>
-                        	<Kinetic>0.5</Kinetic>
-                        	<Heat>1.0</Heat>
-                        	<EM>1.5</EM>
+                        	<Kinetic>0.17</Kinetic>
+                        	<Heat>0.33</Heat>
+                        	<EM>0.5</EM>
                         </EffectConfiguration>
                 </BasicValues>
                 <Combination>
@@ -1328,27 +1328,27 @@
         <EM>
             <BasicValues>  
                 <EffectConfiguration>
-                    <Kinetic>-0.5</Kinetic>
-                    <Heat>-0.5</Heat>
-                    <EM>1.0</EM>
+                    <Kinetic>-0.17</Kinetic>
+                    <Heat>-0.17</Heat>
+                    <EM>0.34</EM>
                 </EffectConfiguration>
             </BasicValues>
         </EM>
         <Heat>
             <BasicValues>  
                 <EffectConfiguration>
-                    <Kinetic>-0.5</Kinetic>
-                    <Heat>1.0</Heat>
-                    <EM>-0.5</EM>
+                    <Kinetic>-0.17</Kinetic>
+                    <Heat>0.34</Heat>
+                    <EM>-0.17</EM>
                 </EffectConfiguration>
             </BasicValues>
         </Heat>
         <Kinetic>
             <BasicValues>  
                 <EffectConfiguration>
-                    <Kinetic>1.0</Kinetic>
-                    <Heat>-0.5</Heat>
-                    <EM>-0.5</EM>
+                    <Kinetic>0.34</Kinetic>
+                    <Heat>-0.17</Heat>
+                    <EM>-0.17</EM>
                 </EffectConfiguration>
             </BasicValues>
         </Kinetic>

@@ -15,15 +15,30 @@ public abstract class InterEffectHandler
 	private static final InterEffectHandler[] EFFECTS;
 	
 	public abstract InterEffectType getType();
-	
-	public static float handleEffects(final float n, final InterEffectSet set, final InterEffectSet set2, final HitType hitType, final DamageDealerType damageDealerType, final HitReceiverType hitReceiverType, final short n2) {
-		float n3 = 0.0f;
-		for (int i = 0; i < InterEffectHandler.EFFECTS.length; ++i) {
-			n3 += InterEffectHandler.EFFECTS[i].getOutputDamage(n, InterEffectHandler.EFFECTS[i].getType(), set, set2, hitType, damageDealerType, hitReceiverType, n2);
+
+	//#XXX: this is the rebuilt damage formula, essentially attack * (1 - defense) * damage
+	//attack and defense are both a percentage between 0 and 1, meaning .5 attack in an effect is 50%
+	//in that effect and .25 defense in an effect is a 25% resistance to that effect. these are
+	//multiplied together so if you use a 50% effect to shoot a 25% resistance you get 37.5% of listed
+	//damage. all the included configs have attack spreads that add up to 1, and defense spreads that
+	//add up to 0. this means a weapon that hits neutrally (eg. cannon vs shield) will do exactly its
+	//listed damage, and will do more than listed damage vs a good target (eg. cannon vs systems) or 
+	//less than listed damage vs a bad target (eg. cannon vs armor).
+	public static float handleEffects(float damage, InterEffectSet attack, InterEffectSet defense, HitType hitType, DamageDealerType ddType, HitReceiverType receiverType, short n) {
+		if(attack == null || defense == null) {return 0.0F;}
+
+		float modifier = 0.0F;
+		System.err.println("#XXX: damage calc: damage: " + damage + ", attack: " + attack.toString() + ", defense: " + defense.toString());
+		for (byte b = 0; b < EFFECTS.length; b++) {
+			modifier += attack.getStrength(EFFECTS[b].getType()) * (1 - defense.getStrength(EFFECTS[b].getType()));
 		}
-		return Math.max(0.0f, n3 / InterEffectHandler.EFFECTS.length);
+		damage *= modifier;
+		System.err.println("#XXX: final: " + Math.round(modifier * 100) + "% effective, " + damage + " damage");
+		return damage;
 	}
+	//#XXX:
 	
+	//#XXX: this function is no longer called anywhere
 	public float getOutputDamage(final float n, final InterEffectType interEffectType, final InterEffectSet set, final InterEffectSet set2, final HitType hitType, final DamageDealerType damageDealerType, final HitReceiverType hitReceiverType, final short n2) {
 		assert set != null;
 		return n * Math.max(0.0f, ((set != null) ? set.getStrength(interEffectType) : 0.0f) - ((set2 != null) ? set2.getStrength(interEffectType) : 0.0f));
