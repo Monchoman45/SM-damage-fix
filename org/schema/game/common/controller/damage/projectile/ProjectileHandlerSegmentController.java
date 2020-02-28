@@ -92,21 +92,37 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 	}
 	
 	private boolean processHitsUnshielded(final ShotHandler shotHandler) {
+		System.err.println("#XXX: ");
+		System.err.println("#XXX: processHitsUnshielded");
 		final int size = shotHandler.positionsHit.size();
 		boolean b = false;
-		if (size > 1) {
+		System.err.println("#XXX: size: " + size);
+		//#XXX: i don't know what this is if is supposed to do, but i do know that
+		//shots where size is 1 are not uncommon and in those circumstances it appears
+		//that essentially nothing is calculated and you just do base damage to everything
+		//i changed this to 0 and haven't seen any negative side effects
+		if(size > 0) {
+		//#XXX:
 			final HitReceiverType armor = HitReceiverType.ARMOR;
 			final InterEffectSet value = shotHandler.hitSegController.getEffectContainer().get(armor);
 			assert shotHandler.damager != null;
 			assert shotHandler.damageDealerType != null;
 			final InterEffectSet attackEffectSet;
-			float n;
+			float n = shotHandler.dmg;
 			if ((attackEffectSet = shotHandler.damager.getAttackEffectSet(shotHandler.weaponId, shotHandler.damageDealerType)) == null) {
 				System.err.println(shotHandler.hitSegController.getState() + " WARNING: hit effect set on " + shotHandler.hitSegController + " by " + shotHandler.damager + " is null for weapon " + shotHandler.weaponId);
 				n = shotHandler.dmg;
 			}
 			else {
-				n = InterEffectHandler.handleEffects(shotHandler.dmg, attackEffectSet, value, shotHandler.hitType, shotHandler.damageDealerType, armor, (short)(-1));
+				/* #XXX: this is an extraneous call, this will reduce damage based on any defense chamber
+				 * bonus, but then further down, in doDamageOnBlock, damage will be reduced by defense chambers
+				 * again; this call here is less useful because it doesn't account for the individual type of
+				 * the block (armor or system), so it's better to not do this at all
+				 *
+				 * n = InterEffectHandler.handleEffects(shotHandler.dmg, attackEffectSet, value, shotHandler.hitType, shotHandler.damageDealerType, armor, (short)(-1));
+				 *
+				 * #XXX:
+				 */
 			}
 			short n2 = 0;
 			int n3 = 0;
@@ -118,6 +134,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				final int value2 = shotHandler.infoIndexHit.get(i);
 				final short id = elementInformation.id;
 				if (!elementInformation.isArmor()) {
+					System.err.println("#XXX: weird calc ElementInformation: " + elementInformation.toString());
 					break;
 				}
 				if (n3 == 0) {
@@ -127,21 +144,35 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				n4 += elementInformation.getArmorValue() + elementInformation.getArmorValue() * (n3 * VoidElementManager.ARMOR_THICKNESS_BONUS);
 				n5 += segment.getSegmentData().getHitpointsByte(value2) * 0.007874016f;
 			}
+			System.err.println("#XXX: n3 = " + n3);
+			//#XXX: computes effects, see calcDamageEfficiency
+			this.calcEffectEfficiency(shotHandler, n3);
+			//#XXX:
 			if (n3 > 0) {
 				shotHandler.dmg = shotHandler.hitSegController.getHpController().onHullDamage(shotHandler.damager, n, n2, shotHandler.damageDealerType);
 				b = true;
 				shotHandler.totalArmorValue = n4 * (n5 / n3);
 				shotHandler.damageToAcidPercent = 0.0f;
+				System.err.println("#XXX: n: " + n);
+				System.err.println("#XXX: totalArmorValue: " + shotHandler.totalArmorValue);
 				if (n < shotHandler.totalArmorValue * VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN) {
+					System.err.println("#XXX: ACID_DAMAGE_ARMOR_STOPPED_MARGIN: " + VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN);
 					shotHandler.shotStatus = ShotStatus.STOPPED;
+					//#XXX: note that if this block is reached (and only if this block is reached) armor value
+					//does not modify damage at all; this appears to be intentional so i left it this way
 				}
 				else if (n < shotHandler.totalArmorValue) {
+					System.err.println("#XXX: n < totalArmorValue");
 					shotHandler.shotStatus = ShotStatus.STOPPED_ACID;
 					shotHandler.damageToAcidPercent = (n - shotHandler.totalArmorValue * VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN) / (1.0f - VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN);
-					this.doDamageReduction(shotHandler, n3);
+					//#XXX: computes armor, see calcDamageEfficiency
+					this.calcArmorReduction(shotHandler, n3);
+					//#XXX:
 				}
 				else if (shotHandler.shotStatus == ShotStatus.OVER_PENETRATION) {
+					System.err.println("#XXX: ShotStatus.OVER_PENETRATION");
 					if (n > shotHandler.totalArmorValue * VoidElementManager.ARMOR_OVER_PENETRATION_MARGIN_MULTIPLICATOR) {
+						System.err.println("#XXX: ARMOR_OVER_PENETRATION_MARGIN_MULTIPLICATOR: " + VoidElementManager.ARMOR_OVER_PENETRATION_MARGIN_MULTIPLICATOR);
 						shotHandler.shotStatus = ShotStatus.OVER_PENETRATION;
 					}
 					else {
@@ -149,7 +180,9 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 					}
 				}
 				if (shotHandler.shotStatus == ShotStatus.NORMAL || shotHandler.shotStatus == ShotStatus.OVER_PENETRATION) {
-					this.doDamageReduction(shotHandler, n3);
+					//#XXX: computes armor, see calcDamageEfficiency
+					this.calcArmorReduction(shotHandler, n3);
+					//#XXX:
 				}
 			}
 			else if (shotHandler.blockIndex == 0 && shotHandler.shotStatus == ShotStatus.OVER_PENETRATION) {
@@ -160,8 +193,14 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 					shotHandler.shotStatus = ShotStatus.NORMAL;
 				}
 			}
+			System.err.println("#XXX: shotStatus: " + shotHandler.shotStatus.toString());
 		}
-		for (int n6 = 0; n6 < size && shotHandler.dmg > 0.0f; ++n6) {
+		//#XXX: i changed this to exit when damage is less than 1 instead of 0
+		//there's a lot more floating point division in doDamageOnBlock now so
+		//this is to protect against rounding errors, see the first block comment
+		//in doDamangeOnBlock for more
+		System.err.println("#XXX: loop: shotHandler.dmg = " + this.shotHandler.dmg);
+		for (int n6 = 0; n6 < size && shotHandler.dmg >= 1.0f; ++n6) {
 			final ElementInformation obj = (ElementInformation)shotHandler.typesHit.get(n6);
 			final Segment segment2 = (Segment)shotHandler.segmentsHit.get(n6);
 			final int value3 = shotHandler.infoIndexHit.get(n6);
@@ -170,6 +209,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				System.err.println("HANDLING DAMAGE ON BLOCK: " + obj + "; " + new SegmentPiece(segment2, value3));
 			}
 			shotHandler.dmg = this.doDamageOnBlock(id2, obj, segment2, value3);
+			System.err.println("#XXX: shotHandler.dmg = " + this.shotHandler.dmg);
 			++shotHandler.blockIndex;
 			if (b && shotHandler.shotStatus == ShotStatus.STOPPED) {
 				shotHandler.dmg = 0.0f;
@@ -177,43 +217,157 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 			}
 		}
 		shotHandler.resetHitBuffer();
+		if(shotHandler.dmg < 1.0f) {shotHandler.dmg = 0.0f;}
 		return shotHandler.dmg > 0.0f;
+		//#XXX:
 	}
-	
-	private void doDamageReduction(final ShotHandler shotHandler, final int n) {
+
+	//#XXX: this was previously doDamageReduction, which was the armor formula
+	//now it calculates the armor formula AND effect efficiency vs. both armor
+	//and blocks, which makes effects stack with armor better. previously, the
+	//armor formula was calculated before effects, which would mean a gun with
+	//low damage but a high heat % would suffer greatly despite its theoretical
+	//superiority against armor.
+	//
+	//now, effects are calculated first, and then armor is calculated based on
+	//the effect adjusted damage. the result is a % that armor will reduce your
+	//damage in all calculations; this is done as a percentage (rather than as
+	//before, where it was just computed directly into shotHandler.dmg) because
+	//this allows us to use the base damage to compute other values as necessary
+	//
+	//this allows us some flexibility when calculating some slightly weirder
+	//situations, eg imagine a shot that hits ->[armor, system, armor, system],
+	//with enough damage to break all 4 blocks. in this weird situation we would
+	//previously calculate armor reduction on the first armor block, then calculate
+	//effects on the armor reduced damage, then spend that damage hitting every
+	//subsequent block. we also take a second armor reduction when we hit the armor
+	//block in the middle, which has some weird balance concerns for people who
+	//might want to stack individual plates of armor instead of a single thick shell.
+	//in this example, we are essentially giving every block in the chain the effect
+	//resistances of armor, even on blocks that aren't armor, and we spend most of
+	//our damage just to be allowed to damage anything in the first place, and as
+	//soon as we hit the armor block in the middle, we spend even more damage just
+	//to be able to continue.
+	//
+	//now, in this situation we calculate effects first, against both armor and
+	//systems, and save a multiplier we can use to easily recalculate them later.
+	//then we calculate the armor reduction using damage * armorEfficiency, so
+	//that more heat effect will increase our armor penetration (and less will
+	//decrease it), and we store a multiplier for that as well. we can then use
+	//these multipliers to easily compute accurate damage vs. any block without
+	//hurting performance.
+	//so in the situation above, we destroy the first block, spending
+	//(hp * totalArmorEfficiency) damage in the process, then we destroy the second
+	//block, spending (hp * totalBlockEfficiency) damage in the process. then we hit
+	//the armor block in the middle and we recalculate our armor reduction; if it's
+	//lower (more punishing), we keep it and we recalculate totalBlockEfficiency and
+	//totalArmorEfficiency. then we destroy the second armor block, spending
+	//(hp * totalArmorEfficiency) damage, then we destroy the last block, spending
+	//(hp * totalBlockEfficiency) damage. this means heat damage will always boost
+	//your armor penetration, even if you hit some other block first, and it means
+	//system blocks are always easier to break with kinetic damage, even if they're
+	//covered in armor, and it means multiple plates of armor will never give you
+	//more damage mitigation than just making a single thick shell like a normal person.
+	//
+	//this is important to do correctly, because otherwise people might start
+	//building crazy ships with stacked plates of armor, system, armor, system,
+	//etc. to essentially remove the kinetic weakness of their systems so that
+	//they could, for example, only get a heat defense chamber instead of heat
+	//and kinetic, thus saving a bunch of RC and chamber mass over their
+	//opponents who aren't as well versed in the weird quirks of the damage system.
+	private void calcDamageEfficiency(final ShotHandler shotHandler, final int n) {
+		shotHandler.totalArmorEfficiency = shotHandler.armorReduction * shotHandler.armorEfficiency;
+		shotHandler.totalBlockEfficiency = shotHandler.armorReduction * shotHandler.blockEfficiency;
+		System.err.println("#XXX: totalArmorEfficiency: " + shotHandler.totalArmorEfficiency);
+		System.err.println("#XXX: totalBlockEfficiency: " + shotHandler.totalBlockEfficiency);
+	}
+	private void calcEffectEfficiency(final ShotHandler shotHandler, final int n) {
+		System.err.println("#XXX: calcEffectEfficiency");
+		InterEffectSet attackEffectSet = this.shotHandler.damager.getAttackEffectSet(this.shotHandler.weaponId, this.shotHandler.damageDealerType);
+		shotHandler.armorEfficiency = InterEffectHandler.handleEffects(1.0f, attackEffectSet, shotHandler.defenseArmor, shotHandler.hitType, shotHandler.damageDealerType, HitReceiverType.ARMOR, (short)(-1));
+		shotHandler.blockEfficiency = InterEffectHandler.handleEffects(1.0f, attackEffectSet, shotHandler.defenseBlock, shotHandler.hitType, shotHandler.damageDealerType, HitReceiverType.BLOCK, (short)(-1));
+		System.err.println("#XXX: armorEfficiency: " + shotHandler.armorEfficiency);
+		System.err.println("#XXX: blockEfficiency: " + shotHandler.blockEfficiency);
+		this.calcDamageEfficiency(shotHandler, n);
+	}
+	private float calcArmorReduction(final ShotHandler shotHandler, final int n) {
+		System.err.println("#XXX: calcArmorReduction");
+		float armorDamage = shotHandler.dmg * shotHandler.armorEfficiency;
+		float reduction = 0.0f;
 		if (VoidElementManager.ARMOR_CALC_STYLE == ArmorDamageCalcStyle.EXPONENTIAL) {
-			shotHandler.dmg = Math.max(0.0f, FastMath.pow(shotHandler.dmg, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_INCOMING_EXPONENT) / (FastMath.pow(shotHandler.totalArmorValue, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT) + FastMath.pow(shotHandler.dmg, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT)));
-			return;
+			float d = FastMath.pow(armorDamage, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_INCOMING_EXPONENT);
+			float a = FastMath.pow(shotHandler.totalArmorValue, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT);
+			float c = FastMath.pow(armorDamage, VoidElementManager.CANNON_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT);
+			reduction = Math.max(0.0f, d / (a + c));
+			System.err.println("#XXX: d = " + d);
+			System.err.println("#XXX: a = " + a);
+			System.err.println("#XXX: c = " + c);
+			System.err.println("#XXX: d / (a + c) = " + reduction);
 		}
-		shotHandler.dmg = Math.max(0.0f, shotHandler.dmg - VoidElementManager.CANNON_ARMOR_FLAT_DAMAGE_REDUCTION * shotHandler.dmg);
-		shotHandler.dmg = Math.max(0.0f, shotHandler.dmg - Math.min(VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION * n * shotHandler.dmg));
+		else {
+			reduction = Math.max(0.0f, armorDamage - VoidElementManager.CANNON_ARMOR_FLAT_DAMAGE_REDUCTION * shotHandler.dmg);
+			reduction = Math.max(0.0f, reduction - Math.min(VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION * n * reduction));
+		}
+		reduction /= armorDamage;
+		if(reduction < shotHandler.armorReduction) {
+			shotHandler.armorReduction = reduction;
+			System.err.println("#XXX: armorReduction: " + shotHandler.armorReduction);
+			this.calcDamageEfficiency(shotHandler, n);
+		}
+		return shotHandler.armorReduction;
 	}
+	private void doDamageReduction(final ShotHandler s, final int n) {calcDamageEfficiency(s, n);} //#XXX: this is just to make the compiler think the class definition hasn't changed, which makes it easier for me to recompile this
+	//#XXX:
 	
 	private float doDamageOnBlock(final short type, final ElementInformation obj, final Segment segment, final int n) {
+		System.err.println("#XXX: doDamageOnBlock");
+		System.err.println("#XXX: ElementInformation: " + obj.toString());
 		segment.getSegmentData().getOrientation(n);
-		float a = 0.0f;
+		//#XXX: essentially just loading values from calcDamageEfficiency
+		//note that whatever we return from this function is just passed back in later,
+		//so since we're multiplying by efficiency here we need to divide by it before
+		//we return, eg. if we do 100 damage vs. 15 armor, efficiency is .307 (30.7%),
+		//which means the most damage we can do to a block is 30.7, however if we actually
+		//do 30.7 damage and then return 100 - 30.7 we'll still have 70 damage left, which
+		//doesn't make any sense because 30.7 was 100% of our strength. so before returning
+		//we always divide by efficiency to convert back into base damage; eg if we deal
+		//15 damage then we return 100 - (15 / .307) which is 51, which essentially means
+		//we spent 49 base damage to do 15 real damage
+		float efficiency = 1.0f;
+		if(obj.isArmor()) {efficiency = this.shotHandler.totalArmorEfficiency;}
+		else {efficiency = this.shotHandler.totalBlockEfficiency;}
+		float a = this.shotHandler.dmg * efficiency; //this is now equivalent to the output of the entire commented block below
+		//#XXX:
+
+		/* #XXX: this entire code block is no longer necessary, its purpose is fulfilled by calcDamageEfficiency
 		Label_0289: {
 			if (this.shotHandler.blockIndex == 0) {
+				System.err.println("#XXX: doDamageOnBlock calling damage calc");
 				final InterEffectSet defenseEffectSetTmp = this.shotHandler.defenseEffectSetTmp;
 				final InterEffectSet effect = obj.isArmor() ? this.shotHandler.defenseArmor : this.shotHandler.defenseBlock;
 				assert this.shotHandler.damager != null;
 				assert this.shotHandler.damageDealerType != null;
+				System.err.println("#XXX: effect: " + effect.toString());
+				System.err.println("#XXX: obj.effectArmor: " + obj.effectArmor.toString());
 				defenseEffectSetTmp.setEffect(effect);
-				defenseEffectSetTmp.add(obj.effectArmor);
+				defenseEffectSetTmp.add(obj.effectArmor); //#XXX: as far as i know this always adds 0 defense, both the block defense and defense chamber bonus are already in `effect`
+				System.err.println("#XXX: defenseEffectSetTmp: " + defenseEffectSetTmp.toString());
 				final InterEffectSet attackEffectSet = this.shotHandler.damager.getAttackEffectSet(this.shotHandler.weaponId, this.shotHandler.damageDealerType);
 				final HitReceiverType hitReceiverType = obj.isArmor() ? HitReceiverType.ARMOR : HitReceiverType.BLOCK;
 				if (attackEffectSet != null) {
-					a = InterEffectHandler.handleEffects(this.shotHandler.dmg, attackEffectSet, defenseEffectSetTmp, this.shotHandler.hitType, this.shotHandler.damageDealerType, hitReceiverType, type);
+					a = this.shotHandler.armorReduction * InterEffectHandler.handleEffects(this.shotHandler.dmg, attackEffectSet, defenseEffectSetTmp, this.shotHandler.hitType, this.shotHandler.damageDealerType, hitReceiverType, type);
 					break Label_0289;
 				}
 				System.err.println(this.shotHandler.hitSegController.getState() + " WARNING: block hit effect set on " + this.shotHandler.hitSegController + " by " + this.shotHandler.damager + " is null for weapon " + this.shotHandler.weaponId);
 			}
-			a = this.shotHandler.dmg;
+			a = this.shotHandler.dmg * this.shotHandler.armorReduction;
 		}
+		*/
+
 		float max = a;
 		final int round;
 		if ((round = Math.round(a)) == 0) {
-			return (float)round;
+			return (float)round; //#XXX: always 0, i'm not sure why this returns the variable but it may be a decompiler artifact
 		}
 		if (segment.getSegmentController() instanceof ManagedSegmentController && (obj.isInventory() || type == 689)) {
 			final long absoluteIndex = segment.getAbsoluteIndex(n);
@@ -240,7 +394,9 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 						}
 						max = Math.max(0.0f, max - round);
 					}
-					return (float)round;
+					//#XXX: convert back to base damage
+					return (float)round / efficiency;
+					//#XXX:
 				}
 			}
 			else {
@@ -279,9 +435,15 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				hTmp3.z -= 8.0f;
 				explosionDrawer.addExplosion(this.hTmp);
 			}
-			return max;
+			//#XXX: convert back to base damage
+			//note by the way that because we return max, even a 1 block cannon will
+			//destroy infinite decoration blocks at no damage cost; i left this as
+			//is because it was suggested to me that this may have been intentional
+			return max / efficiency;
+			//#XXX:
 		}
 		final float damageElement = editableSendableSegmentController.damageElement(type, n, segment.getSegmentData(), round, this.shotHandler.damager, DamageDealerType.PROJECTILE, this.shotHandler.weaponId);
+		System.err.println("#XXX: reached damageElement: " + damageElement);
 		this.shotHandler.totalDmg += damageElement;
 		final short n3 = (short)(segment.isEmpty() ? 0 : segment.getSegmentData().getHitpointsByte(n));
 		float n4 = Math.max(0.0f, max - damageElement);
@@ -321,9 +483,12 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 					editableSendableSegmentController.getAcidDamageManagerServer().inputDamage(segment.getAbsoluteIndex(n), this.shotHandler.shootingDirRelative, this.shotHandler.acidSetting.damage, this.shotHandler.acidSetting.maxPropagation, this.shotHandler.damager, this.shotHandler.weaponId, true, false);
 				}
 				n4 = Math.max(n4 - this.shotHandler.acidSetting.damage, 0.0f);
+				System.out.println("#XXX: acidSetting.damage: " + this.shotHandler.acidSetting.damage);
 			}
 		}
-		return n4;
+		//#XXX: convert back to base damage
+		return n4 / efficiency;
+		//#XXX:
 	}
 	
 	private boolean isOnServer() {
@@ -444,8 +609,8 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		final ManagerContainer managerContainer;
 		if (segmentController instanceof ManagedSegmentController && (managerContainer = ((ManagedSegmentController)segmentController).getManagerContainer()) instanceof ShieldContainerInterface) {
 			final ShieldContainerInterface shieldContainerInterface = (ShieldContainerInterface)managerContainer;
-			final boolean b = ((SegmentController)segmentController).isUsingLocalShields() && (shieldContainerInterface.getShieldAddOn().isUsingLocalShieldsAtLeastOneActive() || ((SegmentController)segmentController).railController.isDockedAndExecuted());
-			n = ((shieldContainerInterface.getShieldAddOn().getShields() > 0.0 || ((SegmentController)segmentController).railController.isDockedAndExecuted()) ? 1 : 0);
+			final boolean b = segmentController.isUsingLocalShields() && (shieldContainerInterface.getShieldAddOn().isUsingLocalShieldsAtLeastOneActive() || segmentController.railController.isDockedAndExecuted());
+			n = ((shieldContainerInterface.getShieldAddOn().getShields() > 0.0 || segmentController.railController.isDockedAndExecuted()) ? 1 : 0);
 			if (b || n != 0) {
 				//this.shotHandler.dmg; //this statement is a decompiler artifact
 				final InterEffectSet defenseEffectSetTmp;
@@ -464,7 +629,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 					this.shotHandler.dmg = 0.0f;
 				}
 				if (this.shotHandler.dmg <= 0.0f) {
-					((SegmentController)segmentController).sendHitConfirmToDamager(damager, true);
+					segmentController.sendHitConfirmToDamager(damager, true);
 					return ProjectileController.ProjectileHandleState.PROJECTILE_HIT_STOP;
 				}
 				return ProjectileController.ProjectileHandleState.PROJECTILE_HIT_CONTINUE;
@@ -475,6 +640,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 	
 	@Override
 	public ProjectileController.ProjectileHandleState handleAfterIfNotStopped(final Damager damager, final ProjectileController projectileController, final Vector3f vector3f, final Vector3f vector3f2, final ProjectileParticleContainer projectileParticleContainer, final int n, final CubeRayCastResult cubeRayCastResult) {
+		System.err.println("#XXX: handleAfterIfNotStopped");
 		projectileParticleContainer.setBlockHitIndex(n, this.shotHandler.blockIndex);
 		projectileParticleContainer.setShotStatus(n, this.shotHandler.shotStatus.ordinal());
 		return ProjectileController.ProjectileHandleState.PROJECTILE_IGNORE;
@@ -509,6 +675,13 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		public DamageDealerType damageDealerType;
 		private float dmg;
 		private float totalArmorValue;
+		//#XXX: new values for doDamageOnBlock and doDamageReduction
+		private float armorReduction; //% damage reduction from armor at incident angle, calculated as `armor_formula(damage, armor) / damage`
+		private float armorEfficiency; //% effect efficiency vs. armor blocks, this includes effect resistances and defense chambers
+		private float blockEfficiency; //% effect efficiency vs. systems + other blocks, this includes effect resistances and defense chambers
+		private float totalArmorEfficiency; //armorReduction * armorEfficiency
+		private float totalBlockEfficiency; //armorReduction * blockEfficiency
+		//#XXX:
 		private float totalDmg;
 		private LongArrayList positionsHit;
 		private ObjectArrayList<ElementInformation> typesHit;
@@ -560,6 +733,13 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 			this.dmg = 0.0f;
 			this.totalDmg = 0.0f;
 			this.totalArmorValue = 0.0f;
+			//#XXX:
+			this.armorReduction = 1.0f;
+			this.armorEfficiency = 1.0f;
+			this.blockEfficiency = 1.0f;
+			this.totalArmorEfficiency = 1.0f;
+			this.totalBlockEfficiency = 1.0f;
+			//#XXX:
 			this.initialDamage = 0.0f;
 			this.acidFormula = null;
 			this.forcedResult = null;
