@@ -123,10 +123,28 @@ public class InterEffectSet
 	}
 	
 	public void applyAddEffectConfig(final ConfigEntityManager configEntityManager, final StatusEffectType statusEffectType, final InterEffectHandler.InterEffectType interEffectType) {
-		final int ordinal = interEffectType.ordinal();
-		final float[] strength = this.strength;
-		final int n = ordinal;
-		strength[n] += configEntityManager.apply(statusEffectType, this.strength[ordinal]);
+		int i = interEffectType.ordinal();
+		//#XXX: this is the fix to defense chambers
+		//previously, this would pass the ConfigEntityManager this.strength[i]
+		//instead of 1.0F, but this.strength[i] is always 0 at this point and
+		//.apply multiplies the config state with the number you give it, and
+		//as a result defense chamber effects were multiplied by 0 before
+		//being calculated. passing 1.0 lets us get a result out, but note that
+		//the result of this is added to block resistance, not multiplied with
+		//it, which puts us in a weird situation: if there's no defense chamber,
+		//the returned value is just 1, and as an effect resistance 1 is 100%,
+		//but if there is a defense chamber then the returned value is less than
+		//1, which means if subtracting 1 from it you get a negative resistance.
+		//to fix this the base armor chamber no longer adds a .1 resistance, it
+		//sets a 1.1 resistance, which allows us to correctly compute this here,
+		//but also means when you mouse over the base armor chamber node it says
+		//you're gaining 110% resistance, which is not actually true.
+		//the best way to fix this would be to modify ConfigEntityManager and
+		//give it an applyAdd function or something of the sort which uses
+		//addition rather than multiplication, but i wasn't able to recompile
+		//ConfigEntityManager so this is the best i have.
+		this.strength[i] += configEntityManager.apply(statusEffectType, 1.0F) - 1.0F;
+		//#XXX:
 	}
 	
 	public void mul(final InterEffectSet set) {
