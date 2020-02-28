@@ -37,6 +37,9 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 	private final InterEffectSet defenseShield;
 	private final InterEffectSet defenseBlock;
 	private final InterEffectSet defenseArmor;
+	//#XXX: same purpose as the ones on ProjectileController.ShotHandler
+	private float efficiency;
+	//#XXX:
 	private Damager damager;
 	private final DamageDealerType damageDealerType;
 	private long weaponId;
@@ -96,8 +99,12 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 		this.defenseArmor.add(VoidElementManager.armorEffectConfiguration);
 		this.defenseBlock.setEffect(this.hitController.getEffectContainer().get(HitReceiverType.BLOCK));
 		this.defenseBlock.add(VoidElementManager.basicEffectConfiguration);
+		System.err.println("#XXX: defenseShield: " + this.defenseShield);
+		System.err.println("#XXX: defenseArmor: " + this.defenseArmor);
+		System.err.println("#XXX: defenseBlock: " + this.defenseBlock);
 		this.weaponId = beamState.weaponId;
 		this.dam = n * beamState.getPowerByBeamLength();
+		System.err.println("#XXX: damage: " + this.dam);
 		if (beamState.beamType == 6) {
 			this.dam = FastMath.ceil(info.getMaxHitPointsFull() / (float)info.getMaxHitPointsByte()) * (int)(n * beamState.getPowerByBeamLength());
 		}
@@ -119,6 +126,7 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 					}
 					try {
 						final float dam = this.dam;
+						System.err.println("#XXX: hitting shield, damage: " + this.dam);
 						this.dam = (float)shieldAddOn.handleShieldHit(this.damager, this.defenseShield, beamState.hitPoint, beamState.hitSectorId, this.damageDealerType, this.hitType, this.dam, this.weaponId);
 					}
 					catch (SectorNotFoundException ex) {
@@ -138,6 +146,7 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 							}
 						}
 						try {
+							System.err.println("#XXX: hitting shield, damage: " + this.dam);
 							this.dam = (float)shieldAddOn.handleShieldHit(this.damager, this.defenseShield, beamState.hitPoint, beamState.hitSectorId, this.damageDealerType, this.hitType, this.dam, this.weaponId);
 						}
 						catch (SectorNotFoundException ex2) {
@@ -153,9 +162,24 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 				}
 			}
 		}
+		//#XXX: damage formula fix for beams
+		//most of this code was moved here from doDamageOnBlock
+		assert this.damager != null;
+		assert this.damageDealerType != null;
 		this.hitController.sendHitConfirmToDamager(this.damager, b);
-		this.dam = (float)beamState.calcPreviousArmorDamageReduction(this.dam);
+		if(info.isArmor()) {
+			this.efficiency = InterEffectHandler.handleEffects(1.0f, this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType), this.defenseArmor, this.hitType, this.damageDealerType, HitReceiverType.ARMOR, this.segmentPiece.getType());
+			this.efficiency *= beamState.calcPreviousArmorDamageReduction(this.dam * this.efficiency);
+		}
+		else {
+			this.efficiency = InterEffectHandler.handleEffects(1.0f, this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType), this.defenseBlock, this.hitType, this.damageDealerType, HitReceiverType.ARMOR, this.segmentPiece.getType());
+			beamState.calcPreviousArmorDamageReduction(this.dam * this.efficiency); //#XXX: not actually used
+		}
+		//#XXX:
+		System.err.println("#XXX: efficiency: " + efficiency);
+		System.err.println("#XXX: " + info.toString());
 		this.dam = this.hitController.getHpController().onHullDamage(this.damager, this.dam, this.segmentPiece.getType(), this.damageDealerType);
+		System.err.println("#XXX: damage: " + this.dam);
 		if (this.doDamageOnBlock(this.segmentPiece, beamState) && info.isArmor()) {
 			beamState.getHandler().onArmorBlockKilled(beamState, info.getArmorValue());
 		}
@@ -167,24 +191,30 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 		return n;
 	}
 
-        private boolean doDamageOnBlock(final SegmentPiece segmentPiece, final BeamState beamState) {
+	private boolean doDamageOnBlock(final SegmentPiece segmentPiece, final BeamState beamState) {
+		System.err.println("#XXX: doDamageOnBlock");
 		segmentPiece.getOrientation();
 		final short type = segmentPiece.getType();
 		final ElementInformation info;
-		final HitReceiverType hitReceiverType = (info = segmentPiece.getInfo()).isArmor() ? HitReceiverType.ARMOR : HitReceiverType.BLOCK;
-		final InterEffectSet effect = info.isArmor() ? this.defenseArmor : this.defenseBlock;
-		assert this.damager != null;
-		assert this.damageDealerType != null;
-		final InterEffectSet attackEffectSet = this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType);
-		this.defense.setEffect(effect);
-		this.defense.scaleAdd(info.effectArmor, 1.0f);
-		final float handleEffects;
-		final int round = Math.round(handleEffects = InterEffectHandler.handleEffects(this.dam, attackEffectSet, this.defense, this.hitType, this.damageDealerType, hitReceiverType, type));
+		//#XXX: moved up to onBeamDamage
+		//final HitReceiverType hitReceiverType = (info = segmentPiece.getInfo()).isArmor() ? HitReceiverType.ARMOR : HitReceiverType.BLOCK;
+		//final InterEffectSet effect = info.isArmor() ? this.defenseArmor : this.defenseBlock;
+		//assert this.damager != null;
+		//assert this.damageDealerType != null;
+		//final InterEffectSet attackEffectSet = this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType);
+		//this.defense.setEffect(effect);
+		//this.defense.scaleAdd(info.effectArmor, 1.0f);
+		//final float handleEffects;
+		final int round = Math.round(this.dam * this.efficiency);
+		//#XXX:
 		final int hitpointsFull = segmentPiece.getHitpointsFull();
 		final EditableSendableSegmentController editableSendableSegmentController;
 		final float damageElement = (editableSendableSegmentController = (EditableSendableSegmentController)this.hitController).damageElement(type, segmentPiece.getInfoIndex(), segmentPiece.getSegment().getSegmentData(), round, this.damager, this.damageDealerType, this.weaponId);
+		System.err.println("#XXX: damageElement: " + damageElement);
 		final int n = (int)(hitpointsFull - damageElement);
-		final float max = Math.max(0.0f, handleEffects - damageElement);
+		//#XXX: efficiency
+		final float max = Math.max(0.0f, (this.dam * this.efficiency) - damageElement);
+		//#XXX:
 		if (n > 0) {
 			if (this.isOnServer()) {
 				editableSendableSegmentController.sendBlockHpByte(segmentPiece.getAbsoluteIndex(), ElementKeyMap.convertToByteHP(type, n));

@@ -240,14 +240,19 @@ public class BeamState
 		return 1.0f;
 	}
 
-	public int calcPreviousArmorDamageReduction(float n) {
+	//#XXX: beam armor formula
+	//the same fixes that went into cannons also apply here
+	public float calcPreviousArmorDamageReduction(float damage) {
+		System.err.println("#XXX: calcPreviousArmorDamageReduction");
+		float reduced = damage;
 		if (VoidElementManager.ARMOR_CALC_STYLE == ArmorDamageCalcStyle.EXPONENTIAL) {
-			n = Math.max(0.0f, FastMath.pow(n, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_EXPONENT) / (FastMath.pow(this.armorValue.totalArmorValue, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT) + FastMath.pow(n, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT)));
+			reduced = Math.max(0.0f, FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_EXPONENT) / (FastMath.pow(this.armorValue.totalArmorValue, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT) + FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT)));
 		}
 		else {
-			n = Math.max(0.0f, n - VoidElementManager.BEAM_ARMOR_FLAT_DAMAGE_REDUCTION * n);
-			n = Math.max(0.0f, n - Math.min(VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION * this.armorValue.typesHit.size() * n));
+			reduced = Math.max(0.0f, damage - VoidElementManager.BEAM_ARMOR_FLAT_DAMAGE_REDUCTION * damage);
+			reduced = Math.max(0.0f, reduced - Math.min(VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION * this.armorValue.typesHit.size() * reduced));
 		}
-		return (int)n;
+		return reduced / damage;
 	}
+	//#XXX:
 }
