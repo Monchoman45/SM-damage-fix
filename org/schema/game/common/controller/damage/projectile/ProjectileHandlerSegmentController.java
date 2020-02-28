@@ -250,6 +250,17 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		segment.getSegmentData().getHitpointsByte(n);
 		final EditableSendableSegmentController editableSendableSegmentController;
 		if ((editableSendableSegmentController = (EditableSendableSegmentController)this.shotHandler.hitSegController).isExtraAcidDamageOnDecoBlocks() && obj.isDecorative()) {
+			//#XXX: the if above is what made cannons destroy infinite hull
+			//this was fixed with config rather than modifying this file, essentially
+			//a new BlockConfig value called ArmorBlock was created (the cousin of
+			//SystemBlock, used to flag reactors and such). See ElementInformation
+			//for more on the config setup, but basically the issue here was that
+			//a block is decorative if it's not armor and isn't a system, meaning
+			//it doesn't have the SystemBlock flag in BlockConfig.xml and it has
+			//an armor value of 0. this made hull technically decorative, but giving
+			//it an armor value would make it benefit from armor stacking and flagging
+			//it as a system wouldn't make any sense, so config change instead.
+			System.err.println("#XXX: shot a block the game thinks is decorative: " + obj.toString());
 			if (this.isOnServer()) {
 				editableSendableSegmentController.killBlock(new SegmentPiece(segment, n));
 				this.shotHandler.acidFormula.getAcidDamageSetting(type, round, 40, 40, this.shotHandler.totalArmorValue, this.shotHandler.blockIndex, this.shotHandler.projectileWidth, this.shotHandler.penetrationDepth, this.shotHandler.shotStatus, this.shotHandler.acidSetting);

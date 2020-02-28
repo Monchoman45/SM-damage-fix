@@ -739,6 +739,15 @@ public enum ElemType implements Comparable<ElemType>
 			}
 		}
 	}), 
+	//#XXX: this is a direct copy/paste of the SYSTEM_BLOCK parser for the paper hull fix
+	//see ProjectileHandlerSegmentController or ElementInformation for more info on this
+	ARMOR_BLOCK("ArmorBlock", (NodeSetting)new NodeSetting() {
+		@Override
+		public final void parse(final Node node, final ElementInformation elementInformation) throws ElementParserException {
+			elementInformation.armorBlock = parseBoolean(node);
+		}
+	}),
+	//#XXX:
 	SYSTEM_BLOCK("SystemBlock", (NodeSetting)new NodeSetting() {
 		@Override
 		public final void parse(final Node node, final ElementInformation elementInformation) throws ElementParserException {

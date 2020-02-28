@@ -279,13 +279,18 @@ public class ElementInformation implements Comparable<ElementInformation>
 	public boolean lowHpSetting;
 	@Element(from = 1, to = 127, editable = false, parser = ElemType.OLD_HITPOINTS, cat = EIC.DEPRECATED, order = 0)
 	public short oldHitpoints;
-	@Element(editable = true, canBulkChange = true, parser = ElemType.SYSTEM_BLOCK, cat = EIC.BASICS, order = 15)
+	//#XXX: this is for the paper hull fix
+	//see isArmor() or ProjectileHandlerSegmentController for more info
+	@Element(editable = true, canBulkChange = true, parser = ElemType.ARMOR_BLOCK, cat = EIC.BASICS, order = 15)
+	public boolean armorBlock;
+	@Element(editable = true, canBulkChange = true, parser = ElemType.SYSTEM_BLOCK, cat = EIC.BASICS, order = 16) //#XXX: i don't know how important these order values are but i edited the ones below this and nothing seems to have broke
 	public boolean systemBlock;
-	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_BLOCK, cat = EIC.BASICS, order = 16)
+	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_BLOCK, cat = EIC.BASICS, order = 17)
 	public boolean signal;
-	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_SIGNALED_BY_RAIL, cat = EIC.BASICS, order = 17)
+	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_SIGNALED_BY_RAIL, cat = EIC.BASICS, order = 18)
 	public boolean signaledByRail;
-	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_BUTTON, cat = EIC.BASICS, order = 18)
+	@Element(editable = true, canBulkChange = true, parser = ElemType.LOGIC_BUTTON, cat = EIC.BASICS, order = 19)
+	//#XXX:
 	public boolean button;
 	public int wildcardIndex;
 	private FixedRecipe productionRecipe;
@@ -1993,7 +1998,19 @@ public class ElementInformation implements Comparable<ElementInformation>
 	}
 	
 	public boolean isArmor() {
-		return this.armorValue > 0.0f;
+		//#XXX: this is the paper hull fix
+		//because QF removed the armor from hull, it no longer counted as
+		//an armor block, and because it's also not a system, that technically
+		//made it decorative, and decorative blocks essentially do not exist
+		//for cannons. to fix this, BlockConfig.xml now has a new field for
+		//all blocks, called ArmorBlock (basically a copy of SystemBlock)
+		//which you can use to explicitly mark a block as armor. every block
+		//in the <Hulls> tag has this set to true, and every other block has
+		//it set to false. i left the armorValue > 0 condition because it
+		//doesn't hurt anything, but it also doesn't do anything now and you
+		//could probably remove it
+		return this.armorBlock || this.armorValue > 0.0f;
+		//#XXX:
 	}
 	
 	public float getMaxHitPointsOneDivByByte() {
