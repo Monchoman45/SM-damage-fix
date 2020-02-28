@@ -112,6 +112,7 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 		this.defenseTmp = new InterEffectSet();
 		this.shieldDamageBonus = VoidElementManager.EXPLOSION_SHIELD_DAMAGE_BONUS;
 		this.callbackCache = new ExplosionCubeConvexBlockCallback[4096];
+		this.ownLockedSegments = (ObjectOpenHashSet<Segment>)new ObjectOpenHashSet(128);
 		this.collidingSegments = new LongArrayList();
 		this.explosionBlockMapA = new Long2IntOpenHashMap(4096);
 		this.explosionBlockMapB = new Long2IntOpenHashMap(4096);
@@ -124,7 +125,9 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 		this.explosionBlockMapC.defaultReturnValue(-1);
 		this.explosionBlockMapD.defaultReturnValue(-1);
 		this.extraDamageTakenMap.defaultReturnValue(1.0f);
-		this.environmentalProtectMultMap.defaultReturnValue(1.0f);
+		//#XXX: sun damage fix
+		this.environmentalProtectMultMap.defaultReturnValue(0.0f);
+		//#XXX:
 		this.explosionDataStructure = explosionDataStructure;
 		this.explosionDamageBuffer = new float[explosionDataStructure.bigLength * explosionDataStructure.bigLength * explosionDataStructure.bigLength];
 		this.closedList = new ShortOpenHashSet(1024);
@@ -184,7 +187,9 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 				this.interEffectMap.put(sendable.getId(), ((SimpleTransformableSendableObject)sendable).getEffectContainer());
 			}
 			if (sendable instanceof ConfigManagerInterface) {
-				this.environmentalProtectMultMap.put(sendable.getId(), ((SegmentController)sendable).getConfigManager().apply(StatusEffectType.ARMOR_DEFENSE_ENVIRONMENTAL, 1.0f));
+				//#XXX: sun damage fix, this is the same fix as the one applied to InterEffectSet.applyAddEffectConfig
+				this.environmentalProtectMultMap.put(sendable.getId(), ((SegmentController)sendable).getConfigManager().apply(StatusEffectType.ARMOR_DEFENSE_ENVIRONMENTAL, 1.0f) - 1.0f);
+				//#XXX:
 			}
 			if (sendable instanceof SegmentController) {
 				final SegmentController segmentController = (SegmentController)sendable;
@@ -272,7 +277,13 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 			System.err.println("#XXX: environmentalProtectMultMap.get: " + this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId));
 			System.err.println("#XXX: hitType: " + this.hitType.toString());
 			if (this.hitType == HitType.ENVIROMENTAL) {
-				defenseTmp.scaleAdd(value, this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId));
+				//#XXX: sun damage fix
+				float enviro_resist = this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId);
+				defenseTmp.reset();
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.HEAT, enviro_resist);
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.KIN, enviro_resist);
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.EM, enviro_resist);
+				//#XXX:
 			}
 			else {
 				defenseTmp.add(value);
@@ -280,6 +291,40 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 			System.err.println("#XXX: defenseTmp: " + defenseTmp.toString());
 			b = InterEffectHandler.handleEffects(b, this.attack, defenseTmp, this.hitType, this.damageType, hitReceiverType, explosionCubeConvexBlockCallback.blockId);
 		}
+		//#XXX: environmental resistance chamber fix
+		//i don't know how exactly how well this worked previously, as at the time
+		//of writing i've already completely rebuilt the damage formula and most of
+		//the cannon controller, but empirical tests suggested it didn't do much; for
+		//one, it looks like the attack spread for stars is (1, 0, 0) which under
+		//the old formula would automatically do 1/3 listed damage, and it looks like
+		//the chamber bonus was multiplicative meaning any block with 0 heat resistance
+		//(which is all armor blocks) would receive no benefit from environmental
+		//resistance. for the new formula and balance i figured it'd be simpler to make
+		//sun damage ignore resistances and just be flat damage, this way the heat
+		//defense chamber doesn't have a weird second purpose as a ghetto environmental
+		//resistance chamber and we can avoid things like systems weirdly taking 30%
+		//less damage from stars because they have a 30% heat resistance and stars only
+		//do heat damage, which is especially wonky when you consider that armor would
+		//take 60% MORE damage from stars despite being ostensibly better for protecting
+		//yourself - this would mean if you don't have any environmental resistance you
+		//would actually be better off plastering your ship in disposable systems or
+		//decorative blocks, because they'd tank the damage better than your armor
+		//would, and that'd be pretty dumb.
+		//
+		//so now sun damage is flat: if you have no environmental resistance, you take
+		//100% sun damage, if you have 20% enviro resist you take 80% sun damage, and
+		//if you have 100% enviro resist you take 0% sun damage. It's not mechanically
+		//deep, but i don't think people fly through stars often enough to warrant a
+		//super complicated sun damage formula.
+		//
+		//also by the way you're missing an N in HitType.ENVIROMENTAL, it should be
+		//HitType.ENVRIONMENTAL
+		if(this.hitType == HitType.ENVIROMENTAL) {
+			b *= 1 - this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId);
+		}
+		//#XXX:
+
+		System.err.println("#XXX: b: " + b);
 		final int blockHp = explosionCubeConvexBlockCallback.blockHp;
 		max = Math.max(0, blockHp - Math.round(b * this.extraDamageTakenMap.get(explosionCubeConvexBlockCallback.segEntityId)));
 		final int max2 = Math.max(0, max);
@@ -375,7 +420,14 @@ public class ExplosionCollisionSegmentCallback implements ExplosionDamageInterfa
 			System.err.println("#XXX: environmentalProtectMultMap.get: " + this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId));
 			System.err.println("#XXX: hitType: " + this.hitType.toString());
 			if (this.hitType == HitType.ENVIROMENTAL) {
-				defenseTmp.scaleAdd(interEffectContainer.get(hitReceiverType), this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId));
+				//#XXX: environmental resistance chamber fix, see above for more info
+				float enviro_resist = this.environmentalProtectMultMap.get(explosionCubeConvexBlockCallback.segEntityId);
+				defenseTmp.reset();
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.HEAT, enviro_resist);
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.KIN, enviro_resist);
+				defenseTmp.setStrength(InterEffectHandler.InterEffectType.EM, enviro_resist);
+				return handleEffects * enviro_resist;
+				//#XXX:
 			}
 			else {
 				defenseTmp.add(interEffectContainer.get(hitReceiverType));
