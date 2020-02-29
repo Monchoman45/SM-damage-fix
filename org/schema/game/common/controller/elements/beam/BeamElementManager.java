@@ -95,11 +95,31 @@ public abstract class BeamElementManager<E extends BeamUnit<E, CM, EM>, CM exten
 				cm.setEffectTotal(effect.getTotalSize());
 			}
 		}
+		//#XXX: beam effect module dps fix
+		//because this used to not be in an else, the game will completely
+		//discard any linked effect modules you have just microseconds before
+		//it shoots your beam. the game appears to update the collection manager
+		//once per frame, so it'll readd your effect modules pretty quickly,
+		//but all that really means is that your effect modules only exist if
+		//you aren't currently shooting your beam, which is basically the
+		//only time you need your effect modules to exist. what makes this
+		//especially fun is that if you inspect your gun in the menu, it'll
+		//tell you the correct damage number with effect modules included,
+		//but it's essentially just lying.
+		//i moved this here because while searching for this bug, i found
+		//similar classes that looked like this, but i also tried running with
+		//this completely removed and i didn't notice any problems.
+		else {
+			cm.setEffectTotal(0);
+		}
+		//#XXX:
 		if (this.isCombinable() && cm.getSlaveConnectedElement() != Long.MIN_VALUE) {
 			this.handleResponse(this.handleAddOn(this, cm, reloadCallback, this.getManagerContainer().getModulesControllerMap().get((short)ElementCollection.getType(cm.getSlaveConnectedElement())), collection, shootContainer, null, playerState, timer, n), (E)reloadCallback, shootContainer.weapontOutputWorldPos);
 			return;
 		}
-		cm.setEffectTotal(0);
+		//#XXX: moved up
+		//cm.setEffectTotal(0);
+		//#XXX:
 		final Vector3f vector3f;
 		(vector3f = new Vector3f()).set((Tuple3f)shootContainer.weapontOutputWorldPos);
 		shootContainer.shootingDirTemp.scale(reloadCallback.getDistance());
