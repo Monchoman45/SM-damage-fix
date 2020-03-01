@@ -172,8 +172,8 @@ public class DamageBeamHitHandlerSegmentController implements DamageBeamHitHandl
 			this.efficiency *= beamState.calcPreviousArmorDamageReduction(this.dam * this.efficiency);
 		}
 		else {
-			this.efficiency = InterEffectHandler.handleEffects(1.0f, this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType), this.defenseBlock, this.hitType, this.damageDealerType, HitReceiverType.ARMOR, this.segmentPiece.getType());
-			beamState.calcPreviousArmorDamageReduction(this.dam * this.efficiency); //#XXX: not actually used
+			this.efficiency = InterEffectHandler.handleEffects(1.0f, this.damager.getAttackEffectSet(this.weaponId, this.damageDealerType), this.defenseBlock, this.hitType, this.damageDealerType, HitReceiverType.BLOCK, this.segmentPiece.getType());
+			//beamState.calcPreviousArmorDamageReduction(this.dam * this.efficiency); //#XXX: not actually used
 		}
 		//#XXX:
 		System.err.println("#XXX: efficiency: " + efficiency);

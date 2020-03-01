@@ -40,6 +40,7 @@ import org.schema.game.common.controller.elements.IntegrityBasedInterface;
 import org.schema.game.common.controller.elements.BlockActivationListenerInterface;
 import org.schema.game.common.controller.elements.combination.BeamCombiSettings;
 import org.schema.game.common.controller.elements.UsableCombinableControllableElementManager;
+import org.schema.game.common.controller.elements.beam.damageBeam.DamageBeamElementManager;
 
 public abstract class BeamElementManager<E extends BeamUnit<E, CM, EM>, CM extends BeamCollectionManager<E, CM, EM>, EM extends BeamElementManager<E, CM, EM>> extends UsableCombinableControllableElementManager<E, CM, EM, BeamCombiSettings> implements BlockActivationListenerInterface, IntegrityBasedInterface
 {
@@ -120,6 +121,29 @@ public abstract class BeamElementManager<E extends BeamUnit<E, CM, EM>, CM exten
 		//#XXX: moved up
 		//cm.setEffectTotal(0);
 		//#XXX:
+
+		//#XXX: effect relink fix
+		//so currently when an entity is loaded, weapons with an effect computer
+		//linked only use their basic effect spread, and if you shoot them you'll
+		//only get basic effect damage. you can fix this by just unlinking the
+		//computer and linking it back up again; the correct values are all there,
+		//the game just never put them together. rather than digging into the entity
+		//loader to fix this at the source, which sounds very scary and difficult, i
+		//just made it recalculate here since it's not an expensive calculation and
+		//we're already recalculating effect and slave size anyway.
+		//i know this class handles all beams, including salvage, astrotech,
+		//activation, etc. that don't have anything to do with damage at all, and
+		//that this might be better placed in DamageBeamElementManager, but i'd have
+		//to recompile that class too and i'd have to copy this entire function over
+		//there and override this one, both of which seem a bit excessive for what
+		//i can easily fix here with instanceof. there's probably a better way to
+		//do this in general, but it might require restructuring these classes and
+		//i'm not really here to do that.
+		if(cm instanceof DamageBeamCollectionManager) {
+			((DamageBeamCollectionManager)cm).updateAttackEffectSet();
+		}
+		//#XXX:
+
 		final Vector3f vector3f;
 		(vector3f = new Vector3f()).set((Tuple3f)shootContainer.weapontOutputWorldPos);
 		shootContainer.shootingDirTemp.scale(reloadCallback.getDistance());

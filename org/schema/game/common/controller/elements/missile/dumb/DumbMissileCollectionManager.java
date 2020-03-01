@@ -117,6 +117,15 @@ public class DumbMissileCollectionManager extends MissileCollectionManager<DumbM
 	public InterEffectSet getAttackEffectSet() {
 		return this.effectConfiguration;
 	}
+
+	//#XXX: effect relink fix
+	//this is only here because .updateInterEffects is protected and
+	//.effectConfiguration is private, but we need to set both in
+	//MissileElementManager
+	public void updateAttackEffectSet() {
+		this.updateInterEffects(DumbMissileElementManager.basicEffectConfiguration, this.effectConfiguration);
+	}
+	//#XXX:
 	
 	public MissileCombiSettings getWeaponChargeParams() {
 		this.getElementManager().getCombiSettings().lockOnTime = this.getLockOnTimeRaw();

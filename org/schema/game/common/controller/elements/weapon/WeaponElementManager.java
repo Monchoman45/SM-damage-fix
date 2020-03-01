@@ -181,6 +181,17 @@ public class WeaponElementManager extends UsableCombinableControllableElementMan
 				weaponCollectionManager.setEffectTotal(effect.getTotalSize());
 			}
 		}
+		//#XXX: effect relink fix
+		//so currently when an entity is loaded, weapons with an effect computer
+		//linked only use their basic effect spread, and if you shoot them you'll
+		//only get basic effect damage. you can fix this by just unlinking the
+		//computer and linking it back up again; the correct values are all there,
+		//the game just never put them together. rather than digging into the entity
+		//loader to fix this at the source, which sounds very scary and difficult, i
+		//just made it recalculate here since it's not an expensive calculation and
+		//we're already recalculating effect and slave size anyway.
+		weaponCollectionManager.updateAttackEffectSet();
+		//#XXX:
 		if (weaponCollectionManager.getSlaveConnectedElement() != Long.MIN_VALUE) {
 			this.handleResponse(this.handleAddOn(this, weaponCollectionManager, weaponUnit, this.getManagerContainer().getModulesControllerMap().get((short)ElementCollection.getType(weaponCollectionManager.getSlaveConnectedElement())), value, shootContainer, null, playerState, timer, -1.0f), weaponUnit, shootContainer.weapontOutputWorldPos);
 			return;

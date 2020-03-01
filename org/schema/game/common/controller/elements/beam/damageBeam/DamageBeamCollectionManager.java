@@ -140,6 +140,15 @@ public class DamageBeamCollectionManager extends BeamCollectionManager<DamageBea
 	public InterEffectSet getAttackEffectSet() {
 		return this.effectConfiguration;
 	}
+
+	//#XXX: effect relink fix
+	//this is only here because .updateInterEffects is protected and
+	//.effectConfiguration is private, but we need to set both in
+	//BeamElementManager
+	public void updateAttackEffectSet() {
+		this.updateInterEffects(DamageBeamElementManager.basicEffectConfiguration, this.effectConfiguration);
+	}
+	//#XXX:
 	
 	@Override
 	public MetaWeaponEffectInterface getMetaWeaponEffect() {

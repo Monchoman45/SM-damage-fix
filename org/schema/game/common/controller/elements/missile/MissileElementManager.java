@@ -56,6 +56,7 @@ import org.schema.game.common.controller.elements.IntegrityBasedInterface;
 import org.schema.game.common.controller.elements.BlockActivationListenerInterface;
 import org.schema.game.common.controller.elements.combination.MissileCombiSettings;
 import org.schema.game.common.controller.elements.UsableCombinableControllableElementManager;
+import org.schema.game.common.controller.elements.missile.dumb.DumbMissileCollectionManager;
 
 public abstract class MissileElementManager<E extends MissileUnit<E, EC, EM>, EC extends MissileCollectionManager<E, EC, EM>, EM extends MissileElementManager<E, EC, EM>> extends UsableCombinableControllableElementManager<E, EC, EM, MissileCombiSettings> implements BlockActivationListenerInterface, IntegrityBasedInterface, WeaponElementManagerInterface
 {
@@ -113,6 +114,25 @@ public abstract class MissileElementManager<E extends MissileUnit<E, EC, EM>, EC
 				ec.setEffectTotal(effect.getTotalSize());
 			}
 		}
+		//System.out.println("#XXX: missile doShot");
+		//System.out.println("#XXX: segmentController.getAttackEffectSet: ", ec.getSegmentController().getAttackEffectSet());
+		//#XXX: effect relink fix
+		//so currently when an entity is loaded, weapons with an effect computer
+		//linked only use their basic effect spread, and if you shoot them you'll
+		//only get basic effect damage. you can fix this by just unlinking the
+		//computer and linking it back up again; the correct values are all there,
+		//the game just never put them together. rather than digging into the entity
+		//loader to fix this at the source, which sounds very scary and difficult, i
+		//just made it recalculate here since it's not an expensive calculation and
+		//we're already recalculating effect and slave size anyway.
+		//missiles are very confusing and i had a hard time finding the right
+		//collection manager, but this is the right one and as far as i know it's
+		//the only concrete subclass of MissileCollectionManager so this should
+		//always be true? idk man, missiles are super weird.
+		if(ec instanceof DumbMissileCollectionManager) {
+			((DumbMissileCollectionManager)ec).updateAttackEffectSet();
+		}
+		//#XXX:
 		if (this.getAddOn() != null && ec.getSlaveConnectedElement() != Long.MIN_VALUE) {
 			this.handleResponse(this.handleAddOn(this, ec, e, this.getManagerContainer().getModulesControllerMap().get((short)ElementCollection.getType(ec.getSlaveConnectedElement())), collection, shootContainer, simpleTransformableSendableObject, playerState, timer, -1.0f), (E)e, shootContainer.weapontOutputWorldPos);
 			return;

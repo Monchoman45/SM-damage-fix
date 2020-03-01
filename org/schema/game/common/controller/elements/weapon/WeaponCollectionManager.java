@@ -192,6 +192,15 @@ public class WeaponCollectionManager extends ControlBlockElementCollectionManage
 	public InterEffectSet getAttackEffectSet() {
 		return this.effectConfiguration;
 	}
+
+	//#XXX: effect relink fix
+	//this is only here because .updateInterEffects is protected and
+	//.effectConfiguration is private, but we need to set both in
+	//WeaponElementManager
+	public void updateAttackEffectSet() {
+		this.updateInterEffects(WeaponElementManager.basicEffectConfiguration, this.effectConfiguration);
+	}
+	//#XXX:
 	
 	@Override
 	public void handleControlShot(final ControllerStateInterface controllerStateInterface, final Timer timer) {
