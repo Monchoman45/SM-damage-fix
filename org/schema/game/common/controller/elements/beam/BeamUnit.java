@@ -111,7 +111,7 @@ public abstract class BeamUnit<E extends BeamUnit<E, CM, EM>, CM extends BeamCol
 	@Override
 	public void doShot(final ControllerStateInterface controllerStateInterface, final Timer timer, final ShootContainer shootContainer) {
 		final boolean b = controllerStateInterface.getPlayerState() != null && controllerStateInterface.getPlayerState().isMouseButtonDown(0) && this.getSegmentController().isClientOwnObject() && this instanceof SalvageUnit;
-		controllerStateInterface.getShootingDir(this.getSegmentController(), shootContainer, this.getDistanceFull(), 3000.0f, this.elementCollectionManager.getControllerPos(), this.elementCollectionManager.isInFocusMode(), true);
+		controllerStateInterface.getShootingDir(this.getSegmentController(), shootContainer, this.getDistanceFull(), 3000.0f, this.elementCollectionManager.getControllerPos(), this.elementCollectionManager.isInFocusMode(), false);
 		if (!this.isAimable()) {
 			shootContainer.shootingDirTemp.set((Tuple3f)shootContainer.shootingDirStraightTemp);
 		}
