@@ -82,7 +82,10 @@ public abstract class MissileElementManager<E extends MissileUnit<E, EC, EM>, EC
 	}
 	
 	protected int getMissileMode(final EC ec) {
-		int n = 0;
+		//#XXX: lock on as base missile
+		//this just makes isTargetLocking true for default missiles
+		int n = 2;
+		//#XXX:
 		if (this.getAddOn() != null && ec.getSlaveConnectedElement() != Long.MIN_VALUE) {
 			switch ((short)ElementCollection.getType(ec.getSlaveConnectedElement())) {
 				case 6: {
@@ -114,8 +117,9 @@ public abstract class MissileElementManager<E extends MissileUnit<E, EC, EM>, EC
 				ec.setEffectTotal(effect.getTotalSize());
 			}
 		}
-		//System.out.println("#XXX: missile doShot");
+		//System.err.println("#XXX: missile doShot");
 		//System.out.println("#XXX: segmentController.getAttackEffectSet: ", ec.getSegmentController().getAttackEffectSet());
+		//System.err.println("#XXX: isTargetLocking: " + this.isTargetLocking(ec));
 		//#XXX: effect relink fix
 		//so currently when an entity is loaded, weapons with an effect computer
 		//linked only use their basic effect spread, and if you shoot them you'll

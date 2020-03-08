@@ -96,8 +96,17 @@ public class DumbMissileElementManager extends MissileElementManager<DumbMissile
 	}
 	
 	public void addMissile(final SegmentController segmentController, final Transform transform, final Vector3f vector3f, final float n, final float n2, final float n3, final long n4, final SimpleTransformableSendableObject simpleTransformableSendableObject, final short n5) {
-		System.err.println("#XXX: addMissile");
-		this.getMissileController().addDumbMissile(segmentController, transform, vector3f, n, n2, n3, n4, n5);
+		//System.err.println("#XXX: addMissile");
+		//#XXX: lock on as base missile fix
+		//there's technically a config for this in blockBehaviorConfig, but it doesn't
+		//actually work; i considered trying to make it work instead of just doing this
+		//but m/x is a unique case in the code which makes that not super simple, instead
+		//this seemed to be the most straightforward solution. it does mean that
+		//DumbMissileElementManager now shoots missiles that aren't dumb, but it kinda
+		//already did that because it's the element manager for every type of missile?
+		//idk, missiles are weird.
+		this.getMissileController().addFafoMissile(segmentController, transform, vector3f, n, n2, n3, n4, simpleTransformableSendableObject, n5);
+		//#XXX:
 	}
 	
 	@Override
