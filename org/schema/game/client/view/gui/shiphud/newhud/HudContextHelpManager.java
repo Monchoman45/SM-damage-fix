@@ -408,7 +408,12 @@ public class HudContextHelpManager
 			final InterEffectSet attackEffectSet = ((DamageDealer)controlBlockElementCollectionManager).getAttackEffectSet();
 			for (int i = 0; i < InterEffectSet.length; ++i) {
 				final InterEffectHandler.InterEffectType interEffectType = InterEffectHandler.InterEffectType.values()[i];
-				this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, interEffectType.shortName.getName(interEffectType) + ": " + Math.round(attackEffectSet.getStrength(interEffectType) / 3.0f * 100.0f) + "%");
+				//#XXX: weapon computer mouseover fix
+				//previously this would divide by 3, because effect spreads
+				//used to be out of 3. now they're out of 1, so this makes
+				//the values display correctly
+				this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, interEffectType.shortName.getName(interEffectType) + ": " + Math.round(attackEffectSet.getStrength(interEffectType) * 100.0f) + "%");
+				//#XXX:
 			}
 		}
 		if (this.currentPiece != null && ElementKeyMap.isReactor(this.currentPiece.getType())) {
