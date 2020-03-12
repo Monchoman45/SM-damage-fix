@@ -511,7 +511,7 @@
                             </Item>
                         </HpConditionTriggerList> 	
 	
-                </BasicValues>
+                <ArmorRaycastLength>100.0</ArmorRaycastLength></BasicValues>
         </General>
         <Stabilizer>
                 <BasicValues>

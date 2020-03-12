@@ -470,6 +470,10 @@ public class VoidElementManager<E extends ElementCollection<E, CM, VoidElementMa
 	public static float REACTOR_STABILIZATION_ENERGY_STREAM_HIT_COOLDOWN_REACTOR_EFFICIENCY;
 	@ConfigurationElement(name = "AcidDamageArmorStoppedMargin")
 	public static float ACID_DAMAGE_ARMOR_STOPPED_MARGIN;
+	//#XXX: new armor counter, see ArmorValue.countArmor
+	@ConfigurationElement(name = "ArmorRaycastLength")
+	public static float ARMOR_RAYCAST_LENGTH;
+	//#XXX:
 	
 	public static double getIntegrityBaseTouching(final int i) {
 		switch (i) {
@@ -781,5 +785,8 @@ public class VoidElementManager<E extends ElementCollection<E, CM, VoidElementMa
 		VoidElementManager.REACTOR_STABILIZATION_ENERGY_STREAM_DISTANCE = -1.0f;
 		VoidElementManager.REACTOR_STABILIZATION_ENERGY_STREAM_HIT_COOLDOWN_REACTOR_EFFICIENCY = 0.2f;
 		VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN = 0.0f;
+		//#XXX: new armor counter
+		VoidElementManager.ARMOR_RAYCAST_LENGTH = 100.0f;
+		//#XXX:
 	}
 }

@@ -150,7 +150,9 @@ public class BuildModeDrawer implements Drawable
 	private int currentSelectedStabSide;
 	private final ArmorCheckTraverseHandler pt;
 	private CubeRayCastResult rayCallbackTraverse;
-	public static ArmorValue armorValue;
+	//#XXX: new armor counter
+	public static float armorValue;
+	//#XXX:
 	private final Vector3f cPosA;
 	private final Vector3f cPosB;
 	private long lastArmorCheck;
@@ -2207,10 +2209,14 @@ public class BuildModeDrawer implements Drawable
 			}
 			if (BuildModeDrawer.currentInfo != null) {
 				if (BuildModeDrawer.currentInfo.isArmor()) {
-					this.retrieveArmorInfo(BuildModeDrawer.currentPiece.getSegmentController(), BuildModeDrawer.currentPiece, new Vector3f(vector3f), new Vector3f(vector3f2));
+					//#XXX: new armor counter
+					BuildModeDrawer.armorValue = ArmorValue.countArmor(BuildModeDrawer.currentPiece.getSegmentController(), this.testRayCollisionPoint.hitPointWorld, vector3f2);
+					//#XXX:
 				}
 				else {
-					BuildModeDrawer.armorValue.reset();
+					//#XXX: new armor counter
+					BuildModeDrawer.armorValue = 0.0f;
+					//#XXX:
 				}
 				if (Keyboard.isKeyDown(54) && Controller.getCamera().getCameraOffset() < 1.0f) {
 					this.indication.setText(StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_BUILDMODEDRAWER_0, BuildModeDrawer.currentInfo.getId(), BuildModeDrawer.currentPiece, BuildModeDrawer.currentPiece.getSegmentController().getUniqueIdentifier(), StringTools.formatPointZero(BuildModeDrawer.currentPiece.getSegmentController().railController.calculateRailMassIncludingSelf()), this.touching.toString(), BuildModeDrawer.currentPiece.getSegmentController().isUsingOldPower() ? "[OLD POWER]" : "[NEW POWER]"));
@@ -2229,7 +2235,9 @@ public class BuildModeDrawer implements Drawable
 				HudIndicatorOverlay.toDrawTexts.add(this.indication);
 			}
 			if (BuildModeDrawer.currentPiece == null) {
-				BuildModeDrawer.armorValue.reset();
+				//#XXX: new armor counter
+				BuildModeDrawer.armorValue = 0.0f;
+				//#XXX:
 			}
 			if (activeBuildController == null) {
 				return;
@@ -2273,8 +2281,9 @@ public class BuildModeDrawer implements Drawable
 		}
 	}
 
+	//#XXX: no longer called, use ArmorValue.countArmor
 	private void retrieveArmorInfo(final SegmentController segmentController, final SegmentPiece segmentPiece, final Vector3f vector3f, final Vector3f vector3f2) {
-		final Vector3f vector3f3 = new Vector3f(vector3f);
+		/*final Vector3f vector3f3 = new Vector3f(vector3f);
 		vector3f2.normalize();
 		vector3f2.scale(400.0f);
 		vector3f3.add((Tuple3f)vector3f2);
@@ -2306,11 +2315,13 @@ public class BuildModeDrawer implements Drawable
 		}
 		this.rayCallbackTraverse.collisionObject = null;
 		this.rayCallbackTraverse.setSegment(null);
-		this.rayCallbackTraverse.setFilter(new SegmentController[0]);
+		this.rayCallbackTraverse.setFilter(new SegmentController[0]);*/
 	}
 	
 	static {
 		BuildModeDrawer.inReactorAlignSliderSelectedAxis = -1;
-		armorValue = new ArmorValue();
+		//#XXX: new armor counter
+		armorValue = 0.0f;
+		//#XXX:
 	}
 }

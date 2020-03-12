@@ -112,7 +112,9 @@ public abstract class AbstractBeamHandler<E extends SimpleTransformableSendableO
 	BigTravMines btMines;
 	private final ArmorCheckTraverseHandler pt;
 	private CubeRayCastResult rayCallbackTraverse;
-	private ArmorValue armorValue;
+	//#XXX: new armor counter
+	private float armorValue;
+	//#XXX:
 	
 	public AbstractBeamHandler(final BeamHandlerContainer<E> owner, final E fromObj) {
 		this.beamStates = (Long2ObjectOpenHashMap<BeamState>)new Long2ObjectOpenHashMap();
@@ -142,7 +144,9 @@ public abstract class AbstractBeamHandler<E extends SimpleTransformableSendableO
 				return AbstractBeamHandler.this.pt;
 			}
 		};
-		this.armorValue = new ArmorValue();
+		//#XXX: new armor counter
+		this.armorValue = 0.0f;
+		//#XXX:
 		this.owner = owner;
 		this.fromObj = fromObj;
 		this.rayCallback = new CubeRayCastResult(new Vector3f(), new Vector3f(), fromObj, new SegmentController[0]);
@@ -828,16 +832,22 @@ public abstract class AbstractBeamHandler<E extends SimpleTransformableSendableO
 			this.rayCallback.setRecordedBlocks(null, 0);
 		}
 		modifiedDynamicsWorld.rayTest(vector3f, vector3f2, (CollisionWorld.RayResultCallback)this.rayCallback);
-		beamState.armorValue.reset();
+		//#XXX: new armor counter
+		beamState.armorValue = 0.0f;
+		//#XXX:
 		if (this.rayCallback.hasHit() && this.rayCallback.getSegment() != null && !beamState.ignoreArmor) {
 			System.err.println("#XXX: hitPointWorld: " + this.rayCallback.hitPointWorld.toString());
-			beamState.armorValue.set(this.retrieveArmorInfo(this.rayCallback.getSegment().getSegmentController(), vector3f, vector3f2));
+			//#XXX: new armor counter
+			beamState.armorValue = ArmorValue.countArmor(this.rayCallback.getSegment().getSegmentController(), this.rayCallback.hitPointWorld,  ArmorValue.dir(vector3f, vector3f2));
+			//#XXX:
 		}
 		return this.rayCallback.hasHit();
 	}
 
+	//#XXX: no longer called, use ArmorValue.countArmor
 	private ArmorValue retrieveArmorInfo(final SegmentController segmentController, final Vector3f vector3f, final Vector3f vector3f2) {
-		System.err.println("#XXX: retrieveArmorInfo");
+		/*System.err.println("#XXX: retrieveArmorInfo");
+		System.err.println("#XXX: ARMOR_RAYCAST_LENGTH: " + VoidElementManager.ARMOR_RAYCAST_LENGTH);
 		try {throw new Exception();}
 		catch(Exception e) {e.printStackTrace();}
 		this.rayCallbackTraverse.closestHitFraction = 1.0f;
@@ -864,7 +874,8 @@ public abstract class AbstractBeamHandler<E extends SimpleTransformableSendableO
 		this.rayCallbackTraverse.setSegment(null);
 		this.rayCallbackTraverse.setFilter(new SegmentController[0]);
 		System.err.println("#XXX: armorValue: " + this.armorValue.totalArmorValue);
-		return this.armorValue;
+		return this.armorValue;*/
+		return new ArmorValue();
 	}
 	
 	@Override

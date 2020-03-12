@@ -342,11 +342,15 @@ public class HudContextHelpManager
 		}
 		final EditableSendableSegmentController segmentController = this.getPlayerInteractionManager().getSegmentControlManager().getSegmentController();
 		final short selectedTypeWithSub = this.getPlayerInteractionManager().getSelectedTypeWithSub();
-		if (this.currentPiece != null && ElementKeyMap.isValidType(selectedTypeWithSub) && ElementKeyMap.getInfo(selectedTypeWithSub).isArmor() && BuildModeDrawer.armorValue.totalArmorValue > 0.0f) {
+		//#XXX: new armor counter
+		if (this.currentPiece != null && ElementKeyMap.isValidType(selectedTypeWithSub) && ElementKeyMap.getInfo(selectedTypeWithSub).isArmor() && BuildModeDrawer.armorValue > 0.0f) {
+		//#XXX:
 			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_63);
 			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_65, StringTools.formatSeperated((int)this.currentPiece.getInfo().getArmorValue())));
-			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_66, BuildModeDrawer.armorValue.typesHit.size()));
-			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_67, StringTools.formatSeperated((int)BuildModeDrawer.armorValue.totalArmorValueRaw)));
+			//#XXX: new armor counter
+			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_66, ArmorValue.lastSize));
+			this.addInfo(HudContextHelperContainer.Hos.MOUSE, ContextFilter.CRUCIAL, StringTools.format(Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_67, StringTools.formatSeperated((int)BuildModeDrawer.armorValue)));
+			//#XXX:
 		}
 		if (segmentController.getHpController().getHpPercent() < 1.0) {
 			this.addHelper(KeyboardMappings.REBOOT_SYSTEMS, Lng.ORG_SCHEMA_GAME_CLIENT_VIEW_GUI_SHIPHUD_NEWHUD_HUDCONTEXTHELPMANAGER_38, HudContextHelperContainer.Hos.LEFT, ContextFilter.TRIVIAL);

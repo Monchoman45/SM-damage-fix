@@ -51,6 +51,7 @@ import org.schema.game.common.controller.SegmentController;
 import org.schema.game.common.data.physics.CubeRayCastResult;
 import javax.vecmath.Vector3f;
 import org.schema.game.common.data.SegmentPiece;
+import org.schema.game.common.controller.ArmorValue;
 
 public class ProjectileHandlerSegmentController extends ProjectileHandler
 {
@@ -86,6 +87,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		this.shotHandler.infoIndexHit.add(n);
 		boolean processHitsUnshielded = true;
 		if (!this.isAccumulateShot(infoFast)) {
+			System.err.println("#XXX: calling processHitsUnshielded from raw");
 			processHitsUnshielded = this.processHitsUnshielded(this.shotHandler);
 		}
 		return processHitsUnshielded;
@@ -125,6 +127,21 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				 */
 			}
 			short n2 = 0;
+
+			//#XXX: computes effects, see calcDamageEfficiency
+			this.calcEffectEfficiency(shotHandler);
+			//#XXX:
+
+			//#XXX: new armor counter
+			//this is likely the only place where we'll see a performance drop; cannons have been counting
+			//armor by themselves using their damage traversal raycast which improves performance but also
+			//means that the amount of armor cannons see when they hit is based on projectile speed rather
+			//than anything related to penetration. the performance penalty here is unlikely to be that
+			//significant, you're unlikely to notice a difference in regular gameplay unless you massively
+			//buff the config to stack armor up to like thousands of blocks and then shoot a cannon/cannon
+			//waffle at an armor brick just for fun, but no one really does that in practice and QF has
+			//been actively balancing the game in such a way that it discourages output spam anyway.
+			/*
 			int n3 = 0;
 			float n4 = 0.0f;
 			float n5 = 0.0f;
@@ -145,13 +162,19 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				n5 += segment.getSegmentData().getHitpointsByte(value2) * 0.007874016f;
 			}
 			System.err.println("#XXX: n3 = " + n3);
-			//#XXX: computes effects, see calcDamageEfficiency
-			this.calcEffectEfficiency(shotHandler, n3);
-			//#XXX:
+
 			if (n3 > 0) {
+			#XXX: */
+
+			ElementInformation elementInformation = (ElementInformation)shotHandler.typesHit.get(0);
+			n2 = elementInformation.id;
+			if(elementInformation.isArmor()) {
+			//#XXX:
 				shotHandler.dmg = shotHandler.hitSegController.getHpController().onHullDamage(shotHandler.damager, n, n2, shotHandler.damageDealerType);
 				b = true;
-				shotHandler.totalArmorValue = n4 * (n5 / n3);
+				//#XXX:
+				shotHandler.totalArmorValue = ArmorValue.countArmor(shotHandler.hitSegController, shotHandler.hitPointWorld, shotHandler.shootingDir);
+				//#XXX:
 				shotHandler.damageToAcidPercent = 0.0f;
 				System.err.println("#XXX: n: " + n);
 				System.err.println("#XXX: totalArmorValue: " + shotHandler.totalArmorValue);
@@ -166,7 +189,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 					shotHandler.shotStatus = ShotStatus.STOPPED_ACID;
 					shotHandler.damageToAcidPercent = (n - shotHandler.totalArmorValue * VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN) / (1.0f - VoidElementManager.ACID_DAMAGE_ARMOR_STOPPED_MARGIN);
 					//#XXX: computes armor, see calcDamageEfficiency
-					this.calcArmorReduction(shotHandler, n3);
+					this.calcArmorReduction(shotHandler);
 					//#XXX:
 				}
 				else if (shotHandler.shotStatus == ShotStatus.OVER_PENETRATION) {
@@ -181,7 +204,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				}
 				if (shotHandler.shotStatus == ShotStatus.NORMAL || shotHandler.shotStatus == ShotStatus.OVER_PENETRATION) {
 					//#XXX: computes armor, see calcDamageEfficiency
-					this.calcArmorReduction(shotHandler, n3);
+					this.calcArmorReduction(shotHandler);
 					//#XXX:
 				}
 			}
@@ -275,22 +298,22 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 	//they could, for example, only get a heat defense chamber instead of heat
 	//and kinetic, thus saving a bunch of RC and chamber mass over their
 	//opponents who aren't as well versed in the weird quirks of the damage system.
-	private void calcDamageEfficiency(final ShotHandler shotHandler, final int n) {
+	private void calcDamageEfficiency(final ShotHandler shotHandler) {
 		shotHandler.totalArmorEfficiency = shotHandler.armorReduction * shotHandler.armorEfficiency;
 		shotHandler.totalBlockEfficiency = shotHandler.armorReduction * shotHandler.blockEfficiency;
 		System.err.println("#XXX: totalArmorEfficiency: " + shotHandler.totalArmorEfficiency);
 		System.err.println("#XXX: totalBlockEfficiency: " + shotHandler.totalBlockEfficiency);
 	}
-	private void calcEffectEfficiency(final ShotHandler shotHandler, final int n) {
+	private void calcEffectEfficiency(final ShotHandler shotHandler) {
 		System.err.println("#XXX: calcEffectEfficiency");
 		InterEffectSet attackEffectSet = this.shotHandler.damager.getAttackEffectSet(this.shotHandler.weaponId, this.shotHandler.damageDealerType);
 		shotHandler.armorEfficiency = InterEffectHandler.handleEffects(1.0f, attackEffectSet, shotHandler.defenseArmor, shotHandler.hitType, shotHandler.damageDealerType, HitReceiverType.ARMOR, (short)(-1));
 		shotHandler.blockEfficiency = InterEffectHandler.handleEffects(1.0f, attackEffectSet, shotHandler.defenseBlock, shotHandler.hitType, shotHandler.damageDealerType, HitReceiverType.BLOCK, (short)(-1));
 		System.err.println("#XXX: armorEfficiency: " + shotHandler.armorEfficiency);
 		System.err.println("#XXX: blockEfficiency: " + shotHandler.blockEfficiency);
-		this.calcDamageEfficiency(shotHandler, n);
+		this.calcDamageEfficiency(shotHandler);
 	}
-	private float calcArmorReduction(final ShotHandler shotHandler, final int n) {
+	private float calcArmorReduction(final ShotHandler shotHandler) {
 		System.err.println("#XXX: calcArmorReduction");
 		float armorDamage = shotHandler.dmg * shotHandler.armorEfficiency;
 		float reduction = 0.0f;
@@ -306,17 +329,17 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		}
 		else {
 			reduction = Math.max(0.0f, armorDamage - VoidElementManager.CANNON_ARMOR_FLAT_DAMAGE_REDUCTION * shotHandler.dmg);
-			reduction = Math.max(0.0f, reduction - Math.min(VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION * n * reduction));
+			reduction = Math.max(0.0f, reduction - Math.min(VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.CANNON_ARMOR_THICKNESS_DAMAGE_REDUCTION * ArmorValue.lastSize * reduction));
 		}
 		reduction /= armorDamage;
 		if(reduction < shotHandler.armorReduction) {
 			shotHandler.armorReduction = reduction;
 			System.err.println("#XXX: armorReduction: " + shotHandler.armorReduction);
-			this.calcDamageEfficiency(shotHandler, n);
+			this.calcDamageEfficiency(shotHandler);
 		}
 		return shotHandler.armorReduction;
 	}
-	private void doDamageReduction(final ShotHandler s, final int n) {calcDamageEfficiency(s, n);} //#XXX: this is just to make the compiler think the class definition hasn't changed, which makes it easier for me to recompile this
+	private void doDamageReduction(final ShotHandler s, final int n) {calcDamageEfficiency(s);} //#XXX: this is just to make the compiler think the class definition hasn't changed, which makes it easier for me to recompile this
 	//#XXX:
 	
 	private float doDamageOnBlock(final short type, final ElementInformation obj, final Segment segment, final int n) {
@@ -540,6 +563,10 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		this.rayCallbackTraverse.setSimpleRayTest(true);
 		((ModifiedDynamicsWorld)projectileController.getCurrentPhysics().getDynamicsWorld()).rayTest(vector3f, vector3f2, (CollisionWorld.RayResultCallback)this.rayCallbackTraverse);
 		if (this.shotHandler.typesHit.size() > 0) {
+			//#XXX: new armor counter
+			this.shotHandler.hitPointWorld.set(this.rayCallbackTraverse.hitPointWorld);
+			//#XXX:
+			System.err.println("#XXX: calling processHitsUnshielded from handler.handle");
 			this.processHitsUnshielded(this.shotHandler);
 		}
 		assert this.shotHandler.typesHit.size() == 0 : "not all hits consumed " + this.shotHandler.typesHit.size();
@@ -671,6 +698,9 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		public Vector3f posAfterUpdate;
 		public Vector3f shootingDir;
 		public Vector3f shootingDirRelative;
+		//#XXX: new armor counter
+		public Vector3f hitPointWorld;
+		//#XXX:
 		public HitType hitType;
 		public DamageDealerType damageDealerType;
 		private float dmg;
@@ -710,6 +740,9 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 			this.posAfterUpdate = new Vector3f();
 			this.shootingDir = new Vector3f();
 			this.shootingDirRelative = new Vector3f();
+			//#XXX: new armor counter
+			this.hitPointWorld = new Vector3f();
+			//#XXX:
 			this.hitType = HitType.WEAPON;
 			this.damageDealerType = DamageDealerType.PROJECTILE;
 			this.positionsHit = new LongArrayList();
@@ -739,6 +772,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 			this.blockEfficiency = 1.0f;
 			this.totalArmorEfficiency = 1.0f;
 			this.totalBlockEfficiency = 1.0f;
+			this.hitPointWorld.set(ProjectileHandlerSegmentController.empty);
 			//#XXX:
 			this.initialDamage = 0.0f;
 			this.acidFormula = null;
@@ -779,7 +813,14 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 			}
 			boolean access$300 = true;
 			if (!b && ProjectileHandlerSegmentController.this.shotHandler.typesHit.size() > 0) {
-				access$300 = ProjectileHandlerSegmentController.this.processHitsUnshielded(ProjectileHandlerSegmentController.this.shotHandler);
+				System.err.println("#XXX: calling processHitsUnshielded from onOuterSegmentHitTest");
+				//#XXX: new armor counter
+				//this is a temporary patch to force processHitsUnshielded to be called by
+				//ProjectileHandlerSegmentController.handle, where we can use hitPointWorld,
+				//as far as i can tell this causes the traverse to run a bit longer but
+				//doesn't actually break anything
+				//access$300 = ProjectileHandlerSegmentController.this.processHitsUnshielded(ProjectileHandlerSegmentController.this.shotHandler);
+				//#XXX:
 			}
 			return access$300;
 		}
@@ -811,7 +852,14 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				this.rayResult.closestHitFraction = Vector3fTools.length(this.fromA.origin, this.v.tmpTrans3.origin) / Vector3fTools.length(this.fromA.origin, this.toA.origin);
 				this.rayResult.setSegment(segmentData.getSegment());
 				this.rayResult.getCubePos().set(this.v.elemA);
-				this.rayResult.hitPointWorld.set((Tuple3f)this.v.tmpTrans3.origin);
+				//#XXX: new armor counter
+				//this was previously being run for every block which meant
+				//that when hitPointWorld was used as the origin for the armor
+				//raycast, it would raycast from the last block in the stack
+				//and find no armor insted of the first block in the stack where
+				//all the armor is
+				if(this.rayResult.hitPointWorld.equals(ProjectileHandlerSegmentController.empty)) {this.rayResult.hitPointWorld.set((Tuple3f)this.v.tmpTrans3.origin);}
+				//#XXX:
 				this.rayResult.hitNormalWorld.sub((Tuple3f)this.fromA.origin, (Tuple3f)this.toA.origin);
 				FastMath.normalizeCarmack(this.rayResult.hitNormalWorld);
 				final int infoIndex;
@@ -821,6 +869,7 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 						System.err.println("HIT BLOCK: " + i + ", " + j + "; " + k + "; BLOCK: " + (n - 16) + ", " + (n2 - 16) + ", " + (n3 - 16));
 					}
 					this.rayResult.collisionObject = this.collisionObject;
+					System.err.println("#XXX: calling processRawHitUnshielded");
 					final boolean access$400 = ProjectileHandlerSegmentController.this.processRawHitUnshielded(this.currentSeg, infoIndex, type, this.v.elemA, this.v.elemPosA, this.testCubes);
 					if (this.rayResult.isDebug()) {
 						System.err.println("HIT BLOCK: " + i + ", " + j + "; " + k + "; BLOCK: " + (n - 16) + ", " + (n2 - 16) + ", " + (n3 - 16) + " -CONTINUE: " + access$400);
@@ -832,7 +881,14 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 				}
 				if (ProjectileHandlerSegmentController.this.shotHandler.typesHit.size() > 0) {
 					this.hitSignal = true;
-					final boolean access$401 = ProjectileHandlerSegmentController.this.processHitsUnshielded(ProjectileHandlerSegmentController.this.shotHandler);
+					System.err.println("#XXX: calling processHitsUnshielded from traverser.handle");
+					//#XXX: new armor counter
+					//this is a temporary patch to force processHitsUnshielded to be called by
+					//ProjectileHandlerSegmentController.handle, where we can use hitPointWorld,
+					//as far as i can tell this causes the traverse to run a bit longer but
+					//doesn't actually break anything
+					final boolean access$401 = true; //ProjectileHandlerSegmentController.this.processHitsUnshielded(ProjectileHandlerSegmentController.this.shotHandler);
+					//#XXX:
 					if (this.rayResult.isDebug()) {
 						System.err.println("*AIR* HIT BLOCK ACCUMULATED (air block): " + i + ", " + j + "; " + k + "; BLOCK: " + (n - 16) + ", " + (n2 - 16) + ", " + (n3 - 16) + "; type: " + type + "; continue: " + access$401);
 					}
@@ -849,5 +905,10 @@ public class ProjectileHandlerSegmentController extends ProjectileHandler
 		STOPPED, 
 		STOPPED_ACID, 
 		NORMAL;
+	}
+
+	public static Vector3f empty;
+	static {
+		empty = new Vector3f();
 	}
 }

@@ -103,7 +103,9 @@ public class BeamState
 	public int hitSectorId;
 	private final Vector3f dd;
 	public boolean ignoreShield;
-	public ArmorValue armorValue;
+	//#XXX: new armor counter
+	public float armorValue;
+	//#XXX:
 	public boolean ignoreArmor;
 	
 	public BeamState(final long identifyerSig, final Vector3f vector3f, final Vector3f vector3f2, final Vector3f vector3f3, final PlayerState playerState, final float tickRate, final float power, final long weaponId, final int beamType, final MetaObject originMetaObject, final Vector3i controllerPos, final boolean handheld, final boolean latchOn, final boolean checkLatchConnection, final HitType hitType, final AbstractBeamHandler<?> handler) {
@@ -135,7 +137,9 @@ public class BeamState
 		this.toInset = new Vector3f();
 		this.hitSectorId = -1;
 		this.dd = new Vector3f();
-		this.armorValue = new ArmorValue();
+		//#XXX: new armor counter
+		this.armorValue = 0.0f;
+		//#XXX:
 		this.identifyerSig = identifyerSig;
 		this.from.set((Tuple3f)vector3f2);
 		this.to.set((Tuple3f)vector3f3);
@@ -206,7 +210,9 @@ public class BeamState
 		this.timeSpent = 0.0f;
 		this.firstLatch = Long.MIN_VALUE;
 		this.initalRelativeTranform.setIdentity();
-		this.armorValue.reset();
+		//#XXX: new armor counter
+		this.armorValue = 0.0f;
+		//#XXX:
 	}
 	
 	public float getPowerByBeamLength() {
@@ -246,11 +252,11 @@ public class BeamState
 		System.err.println("#XXX: calcPreviousArmorDamageReduction");
 		float reduced = damage;
 		if (VoidElementManager.ARMOR_CALC_STYLE == ArmorDamageCalcStyle.EXPONENTIAL) {
-			reduced = Math.max(0.0f, FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_EXPONENT) / (FastMath.pow(this.armorValue.totalArmorValue, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT) + FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT)));
+			reduced = Math.max(0.0f, FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_EXPONENT) / (FastMath.pow(this.armorValue, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_ARMOR_VALUE_TOTAL_EXPONENT) + FastMath.pow(damage, VoidElementManager.BEAM_ARMOR_EXPONENTIAL_INCOMING_DAMAGE_ADDED_EXPONENT)));
 		}
 		else {
 			reduced = Math.max(0.0f, damage - VoidElementManager.BEAM_ARMOR_FLAT_DAMAGE_REDUCTION * damage);
-			reduced = Math.max(0.0f, reduced - Math.min(VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION * this.armorValue.typesHit.size() * reduced));
+			reduced = Math.max(0.0f, reduced - Math.min(VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION_MAX, VoidElementManager.BEAM_ARMOR_THICKNESS_DAMAGE_REDUCTION * ArmorValue.lastSize * reduced));
 		}
 		return reduced / damage;
 	}
