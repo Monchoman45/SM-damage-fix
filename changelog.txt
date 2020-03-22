@@ -1,0 +1,63 @@
+Short changelog:
+  * Compared to vanilla, all guns receive a small effective damage buff (~7%, varies by weapon)
+  * Effects:
+    * Shields are weak to EM
+    * Armor is weak to heat
+    * Systems are weak to kinetic
+    * Default cannons deal 15% more than listed damage to systems, exactly listed
+      damage to shields and 15% less than listed damage to armor
+    * Default beams deal 15% more than listed damage to shields, exactly listed
+      damage to armor and 15% less than listed damage to systems
+    * Default missiles deal 15% more than listed damage to armor, exactly listed
+      damage to systems and 15% less than listed damage to shields
+    * Linking a maxed effect computer to your gun will make it do its maximum
+      possible damage against the target that is weak to that effect, but will
+      reduce your damage against both other targets
+      * Example: adding a maxed EM computer to a missile will give you the most
+        posible damage vs. shields, but will reduce your damage vs. armor and systems
+      * See tables printed above or use effect_tables.py
+    * Effects are calculated before armor is, meaning heat effect will improve
+      your armor penetration and heat resistance will decrease your opponent's
+      armor penetration
+  * Hull now counts as armor but still does not benefit from armor stacking
+    * Hull is weak to heat like standard and advanced armor
+  * Defense chamber armor tree is now the defense chamber resistance tree
+    * Buffs apply to all damage received, not just damage received on armor
+      * This makes the kinetic and EM nodes worth getting if you plan on
+        tanking with systems(???) or shields
+    * Base node provides 5% resistance to all effects
+      * Effect specific nodes grant 10% each, for a maximum total of 25%
+      * Adopting the entire tree will grant a flat 25% damage reduction
+        in all situations
+  * Base missile (with no slave) is now a lock on instead of dumbfire
+    * This still isn't configurable but can be changed with minimal code work
+  * Fixed bugs:
+    * Effects now actually mod
+    * Cannons no longer destroy infinite hull blocks with 1 bullet
+    * Defense chamber armor tree now actually provides a buff instead of
+      just eating your precious RC
+    * Beams now actually gain dps from effect modules instead of lying to you
+    * Effect computers no longer need to be relinked to apply spread changes
+      every time the entity is loaded
+    * AI will no longer lead their beam shots
+    * 32 block armor cap has been increased to 100 and is now configurable in
+      blockBehaviorConfig as ArmorRaycastLength
+      * This is also now standardized between both beams and cannons, where
+        previously only cannons were affected by the cap and beams would count
+        much more armor
+  * Known bugs:
+    * Defense chamber resistance tree base node says it gives you 105% resistance
+      to everything (visual only)
+    * The last bullet or damage tick to break a shield may not deal proper damage
+      to the blocks beneath it
+    * Red damage numbers from sun damage do not account for your environmental
+      resistance, and you will still receive a warning even if you have 100%
+      resistance (visual only)
+    * Beams sometimes do double the number of damage ticks they're supposed to
+  * Still planned:
+    * Acid should be looked at in depth
+    * Missiles haven't been touched yet
+      * Shouldn't ignore armor
+      * Should actually deal their listed damage instead of just making everything up
+    * Effects should apply before shield defense chambers (they might already, haven't
+      checked)
